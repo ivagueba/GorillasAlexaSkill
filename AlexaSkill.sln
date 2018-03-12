@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27421.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlexaSkill", "AlexaSkill\AlexaSkill.csproj", "{480D906B-B276-4119-99EE-ABEB94F2A9CE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlexaSkillGorillas.Data", "AlexaSkillGorillas.Data\AlexaSkillGorillas.Data.csproj", "{B9879983-579E-4B59-A9D0-2F71F5DCB1CB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{480D906B-B276-4119-99EE-ABEB94F2A9CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{480D906B-B276-4119-99EE-ABEB94F2A9CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{480D906B-B276-4119-99EE-ABEB94F2A9CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{480D906B-B276-4119-99EE-ABEB94F2A9CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9879983-579E-4B59-A9D0-2F71F5DCB1CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9879983-579E-4B59-A9D0-2F71F5DCB1CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9879983-579E-4B59-A9D0-2F71F5DCB1CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9879983-579E-4B59-A9D0-2F71F5DCB1CB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5989BE0C-1CC8-4FE4-85D2-20DEF2A55C30}
+	EndGlobalSection
+EndGlobal

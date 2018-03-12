@@ -1,0 +1,16 @@
+﻿{
+	"intents": [
+		{
+			"intent": "HelloWorldIntent"
+		},
+		{
+			"intent": "ShowFormIntent"
+		},
+		{
+			"intent": "FillInputName"
+		},
+		{
+			"intent": "FillInputAge"
+		}
+	]
+}
