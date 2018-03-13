@@ -655,3 +655,15 @@
 /packages/WebGrease.1.5.2/lib/WebGrease.dll
 /packages/WebGrease.1.5.2/tools/WG.exe
 /packages/WebGrease.1.5.2/WebGrease.1.5.2.nupkg
+/AlexaSkill/obj/Release/Package/PackageTmp/bin/EntityFramework.SqlServer.dll
+/AlexaSkill/obj/Release/Package/PackageTmp/bin/Microsoft.AspNet.SignalR.Core.dll
+/AlexaSkill/obj/Release/Package/PackageTmp/bin/Microsoft.AspNet.SignalR.SystemWeb.dll
+/AlexaSkill/obj/Release/Package/PackageTmp/bin/Microsoft.Owin.dll
+/AlexaSkill/obj/Release/Package/PackageTmp/bin/Microsoft.Owin.Host.SystemWeb.dll
+/AlexaSkill/obj/Release/Package/PackageTmp/bin/Microsoft.Owin.Security.dll
+/AlexaSkill/obj/Release/Package/PackageTmp/bin/Owin.dll
+/AlexaSkill/obj/Release/Package/PackageTmp/Scripts/jquery.signalR-2.2.2.js
+/AlexaSkill/obj/Release/Package/PackageTmp/Scripts/jquery.signalR-2.2.2.min.js
+/AlexaSkill/obj/Release/Package/PackageTmp/Views/Home/Form.cshtml
+/AlexaSkillGorillas.Data/obj/Release/AlexaSkillGorillas.Data.csprojResolveAssemblyReference.cache
+/.vs/AlexaSkill/v15/Server/sqlite3/db.lock

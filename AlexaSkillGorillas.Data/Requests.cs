@@ -9,7 +9,7 @@ namespace AlexaSkillGorillas.Data
     public class Requests
     {
         public Request Create(Request request) {
-            using (var db = new AlexaGorillas_dbEntities())
+            /*using (var db = new AlexaGorillas_dbEntities())
             {
                 var member = db.Members.FirstOrDefault(m => m.AlexaUserId == request.UserId);
 
@@ -25,7 +25,7 @@ namespace AlexaSkillGorillas.Data
                 }
 
                 db.SaveChanges();
-            }
+            }*/
 
             return request;
         }
