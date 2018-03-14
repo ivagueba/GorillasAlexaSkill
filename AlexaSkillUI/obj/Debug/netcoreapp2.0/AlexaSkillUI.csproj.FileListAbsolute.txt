@@ -1,0 +1,11 @@
+C:\Users\alonq\source\repos\GorillasAlexaSkill\AlexaSkillUI\bin\Debug\netcoreapp2.0\AlexaSkillUI.deps.json
+C:\Users\alonq\source\repos\GorillasAlexaSkill\AlexaSkillUI\bin\Debug\netcoreapp2.0\AlexaSkillUI.runtimeconfig.json
+C:\Users\alonq\source\repos\GorillasAlexaSkill\AlexaSkillUI\bin\Debug\netcoreapp2.0\AlexaSkillUI.runtimeconfig.dev.json
+C:\Users\alonq\source\repos\GorillasAlexaSkill\AlexaSkillUI\bin\Debug\netcoreapp2.0\AlexaSkillUI.dll
+C:\Users\alonq\source\repos\GorillasAlexaSkill\AlexaSkillUI\bin\Debug\netcoreapp2.0\AlexaSkillUI.pdb
+C:\Users\alonq\source\repos\GorillasAlexaSkill\AlexaSkillUI\obj\Debug\netcoreapp2.0\AlexaSkillUI.csprojResolveAssemblyReference.cache
+C:\Users\alonq\source\repos\GorillasAlexaSkill\AlexaSkillUI\obj\Debug\netcoreapp2.0\AlexaSkillUI.csproj.CoreCompileInputs.cache
+C:\Users\alonq\source\repos\GorillasAlexaSkill\AlexaSkillUI\obj\Debug\netcoreapp2.0\AlexaSkillUI.AssemblyInfoInputs.cache
+C:\Users\alonq\source\repos\GorillasAlexaSkill\AlexaSkillUI\obj\Debug\netcoreapp2.0\AlexaSkillUI.AssemblyInfo.cs
+C:\Users\alonq\source\repos\GorillasAlexaSkill\AlexaSkillUI\obj\Debug\netcoreapp2.0\AlexaSkillUI.dll
+C:\Users\alonq\source\repos\GorillasAlexaSkill\AlexaSkillUI\obj\Debug\netcoreapp2.0\AlexaSkillUI.pdb

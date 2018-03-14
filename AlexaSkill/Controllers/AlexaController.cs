@@ -1,4 +1,5 @@
 ﻿using AlexaSkillGorillas.Data;
+using Microsoft.AspNet.SignalR;
 using System;
 using System.Linq;
 using System.Text;
@@ -9,7 +10,8 @@ namespace AlexaSkill.Controllers
     public class AlexaController : ApiController
     {
         [HttpPost, Route("api/alexa/form")]
-        public dynamic GetForm(AlexaRequest alexaRequest) {
+        public dynamic GetForm(AlexaRequest alexaRequest)
+        {
             var request = new Requests().Create(new AlexaSkillGorillas.Data.Request
             {
                 MemberId = (alexaRequest.Session.Attributes == null) ? 0 : alexaRequest.Session.Attributes.MemberId,
@@ -94,15 +96,18 @@ namespace AlexaSkill.Controllers
         {
             var output = new StringBuilder("Getting Form");
 
-            using (var db = new AlexaGorillas_dbEntities())
-            {
-                db.Forms.Take(10).OrderByDescending(c => c.DateCreated).ToList()
-                    .ForEach(c => output.AppendFormat("{0} by {1}. ", c.FormName));
-            }
+            IHubContext context = GlobalHost.ConnectionManager.GetHubContext<AlexaHub>();
+            context.Clients.All.UpdateFormVisibility(request.SlotsList[0].Value);
+
+            //using (var db = new AlexaGorillas_dbEntities())
+            //{
+            //    db.Forms.Take(10).OrderByDescending(c => c.DateCreated).ToList()
+            //        .ForEach(c => output.AppendFormat("{0} by {1}. ", c.FormName));
+            //}
 
             return new AlexaResponse(output.ToString());
         }
-        
+
 
         private AlexaResponse SessionEndedRequestHandler(Request request)
         {
