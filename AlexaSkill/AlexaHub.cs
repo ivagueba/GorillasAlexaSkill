@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using Microsoft.AspNet.SignalR;
+﻿using Microsoft.AspNet.SignalR;
 
 namespace AlexaSkill
 {
@@ -12,6 +8,12 @@ namespace AlexaSkill
         {
             Clients.All.updateFormVisibility(formId);
         }
+
+        public void UpdateFirstNameInputField(string firstName)
+        {
+            Clients.All.updateFirstNameInputField(firstName);
+        }
+
         public void Hello()
         {
             Clients.All.hello();

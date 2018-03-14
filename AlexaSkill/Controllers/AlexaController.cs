@@ -1,8 +1,6 @@
 ﻿using AlexaSkillGorillas.Data;
 using Microsoft.AspNet.SignalR;
 using System;
-using System.Linq;
-using System.Text;
 using System.Web.Http;
 
 namespace AlexaSkill.Controllers
@@ -68,6 +66,9 @@ namespace AlexaSkill.Controllers
                 case "ShowFormIntent":
                     response = ShowFormIntentHandler(request);
                     break;
+                case "FillInputName":
+                    response = FillInputNameHandler(request);
+                    break;
                 case "AMAZON.CancelIntent":
                 case "AMAZON.StopIntent":
                     response = CancelOrStopIntentHandler(request);
@@ -108,6 +109,14 @@ namespace AlexaSkill.Controllers
             return new AlexaResponse(output.ToString());
         }
 
+        private AlexaResponse FillInputNameHandler(Request request)
+        {
+            var output = "Done";
+            var firtName = request.SlotsList[0].Value;
+            IHubContext context = GlobalHost.ConnectionManager.GetHubContext<AlexaHub>();
+            context.Clients.All.UpdateFirstNameInputField(firtName);
+            return new AlexaResponse(output.ToString());
+        }
 
         private AlexaResponse SessionEndedRequestHandler(Request request)
         {
