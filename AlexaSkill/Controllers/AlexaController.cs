@@ -94,17 +94,17 @@ namespace AlexaSkill.Controllers
 
         private AlexaResponse ShowFormIntentHandler(Request request)
         {
-            var output = new StringBuilder("Getting Form");
-
-            IHubContext context = GlobalHost.ConnectionManager.GetHubContext<AlexaHub>();
-            context.Clients.All.UpdateFormVisibility(request.SlotsList[0].Value);
-
-            //using (var db = new AlexaGorillas_dbEntities())
-            //{
-            //    db.Forms.Take(10).OrderByDescending(c => c.DateCreated).ToList()
-            //        .ForEach(c => output.AppendFormat("{0} by {1}. ", c.FormName));
-            //}
-
+            var output = "Done";
+            var formToLoad = Convert.ToInt32(request.SlotsList[0].Value);
+            if (formToLoad < 1 || formToLoad > 3)
+            {
+                output = "No Form with that Id is currently available";
+            }
+            else
+            {
+                IHubContext context = GlobalHost.ConnectionManager.GetHubContext<AlexaHub>();
+                context.Clients.All.UpdateFormVisibility(request.SlotsList[0].Value);
+            }
             return new AlexaResponse(output.ToString());
         }
 
