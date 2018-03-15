@@ -1,5 +1,7 @@
 ﻿@{
-    ViewBag.Title = "Form Test Screen";
+                /**/
+
+                ViewBag.Title = "Form Test Screen";
 }
 <!--Script References -->
 <!--Reference the jQuery library. -->
@@ -13,37 +15,30 @@
 <link href="~/Content/form.css" rel="stylesheet" />
 @Scripts.Render("~/bundles/bootstrap")
 
-<form id="1" style="border:dashed; margin-bottom: 15px; padding-left: 5px">
-    <div class="form-group">
-        <label for="exampleFirstName">First Name</label>
-        <input id="firstName" type="text" class="form-control" aria-describedby="emailHelp" placeholder="Enter First Name">
-        <small id="firstNameHelp" class="form-text text-muted">We'll never share your personal information.</small>
-    </div>
-    <div class="form-group">
-        <label for="exampleInputEmail1">Email Address</label>
-        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-    </div>
-</form>
-
-<form id="2" style="border:dashed; margin-bottom: 15px; padding-left: 5px">
-    <div class="form-group">
-        <label for="exampleInputPassword1">Password</label>
-        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-    </div>
-</form>
-
-
+<h1>Welcome Gorillas!!!</h1>
 <div class="row">
     <div class="col-sm-5">
-
-        <form role="form" id="3">
+        <form role="form" id="1">
+            <h2>Form #1</h2>
+            <h3>Your Data Form!</h3>
             <div class="form-group float-label-control">
-                <label for="country">First Name</label>
+                <label for="exampleFirstName">First Name</label>
+                <input type="text" class="firstName form-control" placeholder="Enter First Name">
+            </div>
+            <div class="form-group float-label-control">
+                <label for="exampleInputEmail1">Email Address</label>
+                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+            </div>
+        </form>
+        <form role="form" id="2">
+            <h2>Form #2</h2>
+            <h3>Your Data Form!</h3>
+            <div class="form-group float-label-control">
+                <label for="country">Country</label>
                 <input id="country" type="text" class="form-control" placeholder="Country">
             </div>
             <div class="form-group float-label-control">
-                <label for="city">Last Name</label>
+                <label for="city">City</label>
                 <input id="city" type="text" class="form-control" placeholder="City">
             </div>
             <div class="form-group float-label-control">
@@ -51,7 +46,35 @@
                 <input id="age" type="number" class="form-control" placeholder="Age">
             </div>
         </form>
-
+        <form role="form" id="3">
+            <h2>Form #3</h2>
+            <h3>Your Data Form!</h3>
+            <div class="form-group float-label-control">
+                <label for="firstName">Your Name</label>
+                <input type="text" class="firstName form-control" name="firstName" placeholder="Your Name">
+            </div>
+            <div class="form-group float-label-control">
+                <label for="country">Your Country</label>
+                <input type="text" class="country form-control" name="country" placeholder="Your Country">
+            </div>
+            <div class="form-group">
+                <select id="services" name="services" class="services form-control">
+                    <option>Choose Services</option>
+                    <option value="Service1">Service 1</option>
+                    <option value="Service2">Service 2</option>
+                    <option value="Service3">Service 3</option>
+                    <option value="Service4">Service 4</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <select id="budget" name="budget" class="budget form-control">
+                    <option>Budget</option>
+                    <option value="1500">$1500</option>
+                    <option value="2000">$2000</option>
+                    <option value="2500">$2500</option>
+                </select>
+            </div>
+        </form>
     </div>
     <div class="col-sm-4">
         <div class="panel panel-default">
@@ -70,17 +93,35 @@
         </div>
     </div>
 </div>
-
 <!--Add script to update the page.-->
 <script type="text/javascript">
 
     let updateFormsVisibility = function (formToDisplay) {
-        $('form').hide();
-        $('#' + formToDisplay).show();
+        $('input').removeClass('filled');
+        $('select').removeClass('filled');
+        $('form').trigger("reset").hide('slow');
+        $('#' + formToDisplay).show('slow');
     }
 
     let updateFirstNameInput = function (newFirstName) {
-        $('#firstName').val(newFirstName);
+        console.log(newFirstName);
+        $('.firstName').addClass('filled');
+        $('.firstName').val(newFirstName);
+    }
+
+    let updateCountryInput = function (newCountry) {
+        $('.country').addClass('filled');
+        $('.country').val(newCountry);
+    }
+
+    let updateServiceInput = function (newService) {
+        $('.services').addClass('filled');
+        $('#services').val('Service' + newService);
+    }
+
+    let updateBudgetInput = function (newBudget) {
+        $('.budget').addClass('filled');
+        $('#budget').val(newBudget);
     }
 
     //Start SignalR Connection with Server
@@ -99,8 +140,22 @@
     }
 
     $.connection.alexaHub.client.updateFirstNameInputField = function (firstName) {
-        console.log(firstName);
         updateFirstNameInput(firstName);
+    }
+
+    $.connection.alexaHub.client.updateCountryInputField = function (country) {
+        console.log(country);
+        updateCountryInput(country);
+    }
+
+    $.connection.alexaHub.client.updateServicesInputField = function (service) {
+        console.log(service);
+        updateServiceInput(service);
+    }
+
+    $.connection.alexaHub.client.updateBudgetInputField = function (budget) {
+        console.log(budget);
+        updateBudgetInput(budget);
     }
 
 </script>
