@@ -11,10 +11,11 @@
 <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
 @Scripts.Render("~/bundles/bootstrap")
 
+<h1>Welcome Gorillas!!!</h1>
 <form id="1" style="border:dashed; margin-bottom: 15px; padding-left: 5px">
     <div class="form-group">
         <label for="exampleFirstName">First Name</label>
-        <input id="firstName" type="text" class="form-control" aria-describedby="emailHelp" placeholder="Enter First Name">
+        <input type="text" class="firstName form-control" aria-describedby="emailHelp" placeholder="Enter First Name">
         <small id="firstNameHelp" class="form-text text-muted">We'll never share your personal information.</small>
     </div>
     <div class="form-group">
@@ -30,44 +31,91 @@
         <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
     </div>
 </form>
+<div class="form-style-5">
+	<form id="3" style="margin-bottom: 15px; padding-left: 5px">
+		<fieldset>
+			<legend><span class="number">1</span> Your Data Form!</legend>
+			<input type="text" class="firstName" name="firstName" placeholder="Your Name *">
+			<input type="text" class="country" name="country" placeholder="Your Country *">
+			<select id="services" name="services" class="services">
+				<option>Choose Services</option>
+				<option value="Service1">Service 1</option>
+				<option value="Service2">Service 2</option>
+				<option value="Service3">Service 3</option>
+				<option value="Service4">Service 4</option>
+			</select>
+			<select id="budget" name="budget" class="budget">
+				<option>Budget</option>
+				<option value="1500">$1500</option>
+				<option value="2000">$2000</option>
+				<option value="2500">$2500</option>
+			</select>
+		</fieldset>
+	</form>
+</div>
+	<!--Add script to update the page.-->
+	<script type="text/javascript">
 
-<form id="3" style="border:dashed; margin-bottom: 15px; padding-left: 5px">
-    <div class="form-check">
-        <input type="checkbox" class="form-check-input" id="exampleCheck1">
-        <label class="form-check-label" for="exampleCheck1">Check me out</label>
-    </div>
-</form>
+		let updateFormsVisibility = function (formToDisplay) {
+			$('input').removeClass('filled');
+			$('select').removeClass('filled');
+			$('form').trigger("reset").hide('slow');
+			$('#' + formToDisplay).show('slow');
+		}
 
-<!--Add script to update the page.-->
-<script type="text/javascript">
+		let updateFirstNameInput = function (newFirstName) {
+			console.log(newFirstName);
+			$('.firstName').addClass('filled');
+			$('.firstName').val(newFirstName);
+		}
 
-    let updateFormsVisibility = function (formToDisplay) {
-        $('form').hide();
-        $('#' + formToDisplay).show();
-    }
+		let updateCountryInput = function (newCountry) {
+			$('.country').addClass('filled');
+			$('.country').val(newCountry);
+		}
 
-    let updateFirstNameInput = function (newFirstName) {
-        $('#firstName').val(newFirstName);
-    }
+		let updateServiceInput = function (newService) {
+			$('.services').addClass('filled');
+			$('#services').val('Service' + newService);
+		}
 
-    //Start SignalR Connection with Server
-    $.connection.hub.start()
-        .done(function () {
-            console.log('SignalR connection stablished');
-            //$.connection.alexaHub.server.updateFormVisibility("DING DING DING");
-        })
-        .fail(function () {
-            console.log('SignalR connection failed')
-        });
+		let updateBudgetInput = function (newBudget) {
+			$('.budget').addClass('filled');
+			$('#budget').val(newBudget);
+		}
 
-    $.connection.alexaHub.client.updateFormVisibility = function (formId) {
-        console.log(formId);
-        updateFormsVisibility(formId);
-    }
+		//Start SignalR Connection with Server
+		$.connection.hub.start()
+			.done(function () {
+				console.log('SignalR connection stablished');
+				//$.connection.alexaHub.server.updateFormVisibility("DING DING DING");
+			})
+			.fail(function () {
+				console.log('SignalR connection failed')
+			});
 
-    $.connection.alexaHub.client.updateFirstNameInputField = function (firstName) {
-        console.log(firstName);
-        updateFirstNameInput(firstName);
-    }
+		$.connection.alexaHub.client.updateFormVisibility = function (formId) {
+			console.log(formId);
+			updateFormsVisibility(formId);
+		}
 
-</script>
+		$.connection.alexaHub.client.updateFirstNameInputField = function (firstName) {
+			updateFirstNameInput(firstName);
+		}
+
+		$.connection.alexaHub.client.updateCountryInputField = function (country) {
+			console.log(country);
+			updateCountryInput(country);
+		}
+
+		$.connection.alexaHub.client.updateServicesInputField = function (service) {
+			console.log(service);
+			updateServiceInput(service);
+		}
+
+		$.connection.alexaHub.client.updateBudgetInputField = function (budget) {
+			console.log(budget);
+			updateBudgetInput(budget);
+		}
+
+	</script>

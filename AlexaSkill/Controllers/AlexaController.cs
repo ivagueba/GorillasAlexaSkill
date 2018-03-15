@@ -60,7 +60,7 @@ namespace AlexaSkill.Controllers
         private AlexaResponse IntentRequestHandler(Request request)
         {
             AlexaResponse response = null;
-
+            
             switch (request.Intent)
             {
                 case "ShowFormIntent":
@@ -68,6 +68,15 @@ namespace AlexaSkill.Controllers
                     break;
                 case "FillInputName":
                     response = FillInputNameHandler(request);
+                    break;
+                case "FillInputCountry":
+                    response = FillInputCountryHandler(request);
+                    break;
+                case "FillInputServices":
+                    response = FillInputServiceHandler(request);
+                    break;
+                case "FillInputBudget":
+                    response = FillInputBudgetHandler(request);
                     break;
                 case "AMAZON.CancelIntent":
                 case "AMAZON.StopIntent":
@@ -83,8 +92,8 @@ namespace AlexaSkill.Controllers
 
         private AlexaResponse HelpIntent(Request request)
         {
-            var response = new AlexaResponse("To use the Gorillas skill, you can say, Alexa, ask Gorillas for top courses, to retrieve the top courses or say, Alexa, ask Plural sight for the new courses, to retrieve the latest new courses. You can also say, Alexa, stop or Alexa, cancel, at any time to exit the Plural sight skill. For now, do you want to hear the Top Courses or New Courses?", false);
-            response.Response.Reprompt.OutputSpeech.Text = "Please select one, top courses or new courses?";
+            var response = new AlexaResponse("To use the Gorillas skill, you can say,", false);
+            response.Response.Reprompt.OutputSpeech.Text = "Please select one form";
             return response;
         }
 
@@ -95,8 +104,8 @@ namespace AlexaSkill.Controllers
 
         private AlexaResponse ShowFormIntentHandler(Request request)
         {
-            var output = "Done";
             var formToLoad = Convert.ToInt32(request.SlotsList[0].Value);
+            var output = "Form Number "+ formToLoad + " has been loaded for you, please fill the input fills as corresponding.";
             if (formToLoad < 1 || formToLoad > 3)
             {
                 output = "No Form with that Id is currently available";
@@ -111,10 +120,52 @@ namespace AlexaSkill.Controllers
 
         private AlexaResponse FillInputNameHandler(Request request)
         {
-            var output = "Done";
-            var firtName = request.SlotsList[0].Value;
+            var firstName = request.SlotsList[0].Value;
+            var output = "We filled your name, Thanks, " + firstName;
             IHubContext context = GlobalHost.ConnectionManager.GetHubContext<AlexaHub>();
-            context.Clients.All.UpdateFirstNameInputField(firtName);
+            context.Clients.All.UpdateFirstNameInputField(firstName);
+            return new AlexaResponse(output.ToString());
+        }
+
+        private AlexaResponse FillInputCountryHandler(Request request)
+        {
+            var country = request.SlotsList[0].Value;
+            var output = "Thank you, really beautiful country is " + country;
+            IHubContext context = GlobalHost.ConnectionManager.GetHubContext<AlexaHub>();
+            context.Clients.All.updateCountryInputField(country);
+            return new AlexaResponse(output.ToString());
+        }
+
+        private AlexaResponse FillInputServiceHandler(Request request)
+        {
+            var serviceToChoose = Convert.ToInt32(request.SlotsList[0].Value);
+            var output = "We are experts on that, thanks!";
+            if (serviceToChoose < 1 || serviceToChoose > 4)
+            {
+                output = "No Service with that value is currently available";
+            }
+            else
+            {
+                IHubContext context = GlobalHost.ConnectionManager.GetHubContext<AlexaHub>();
+                context.Clients.All.updateServicesInputField(request.SlotsList[0].Value);
+            }
+            return new AlexaResponse(output.ToString());
+        }
+
+        private AlexaResponse FillInputBudgetHandler(Request request)
+        {
+            var budget = Convert.ToInt32(request.SlotsList[0].Value);
+
+            var output = "You will get the best product for that price, thanks!";
+            if (budget != 1500 && budget != 2000 && budget != 2500)
+            {
+                output = "No Budget with that value is currently available";
+            }
+            else
+            {
+                IHubContext context = GlobalHost.ConnectionManager.GetHubContext<AlexaHub>();
+                context.Clients.All.updateBudgetInputField(request.SlotsList[0].Value);
+            }
             return new AlexaResponse(output.ToString());
         }
 
