@@ -60,7 +60,7 @@ namespace AlexaSkill.Controllers
         private AlexaResponse IntentRequestHandler(Request request)
         {
             AlexaResponse response = null;
-            
+
             switch (request.Intent)
             {
                 case "ShowFormIntent":
@@ -68,6 +68,9 @@ namespace AlexaSkill.Controllers
                     break;
                 case "FillInputName":
                     response = FillInputNameHandler(request);
+                    break;
+                case "FillInputAge":
+                    response = FillInputAgeHandler(request);
                     break;
                 case "FillInputCountry":
                     response = FillInputCountryHandler(request);
@@ -105,7 +108,7 @@ namespace AlexaSkill.Controllers
         private AlexaResponse ShowFormIntentHandler(Request request)
         {
             var formToLoad = Convert.ToInt32(request.SlotsList[0].Value);
-            var output = "Form Number "+ formToLoad + " has been loaded for you, please fill the input fills as corresponding.";
+            var output = "Form Number " + formToLoad + " has been loaded for you, please fill the input fills as corresponding.";
             if (formToLoad < 1 || formToLoad > 3)
             {
                 output = "No Form with that Id is currently available";
@@ -124,6 +127,16 @@ namespace AlexaSkill.Controllers
             var output = "We filled your name, Thanks, " + firstName;
             IHubContext context = GlobalHost.ConnectionManager.GetHubContext<AlexaHub>();
             context.Clients.All.UpdateFirstNameInputField(firstName);
+            return new AlexaResponse(output.ToString());
+        }
+
+
+        private AlexaResponse FillInputAgeHandler(Request request)
+        {
+            var age = request.SlotsList[0].Value;
+            var output = "We filled your age, Thanks.";
+            IHubContext context = GlobalHost.ConnectionManager.GetHubContext<AlexaHub>();
+            context.Clients.All.UpdateAgeInputField(age);
             return new AlexaResponse(output.ToString());
         }
 
@@ -164,7 +177,7 @@ namespace AlexaSkill.Controllers
             else
             {
                 IHubContext context = GlobalHost.ConnectionManager.GetHubContext<AlexaHub>();
-                context.Clients.All.updateBudgetInputField(request.SlotsList[0].Value);
+                context.Clients.All.updateBudgetInputField(budget);
             }
             return new AlexaResponse(output.ToString());
         }

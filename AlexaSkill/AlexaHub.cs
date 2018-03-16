@@ -14,6 +14,26 @@ namespace AlexaSkill
             Clients.All.updateFirstNameInputField(firstName);
         }
 
+        public void UpdateAgeInputField(string age)
+        {
+            Clients.All.updateAgeInputField(age);
+        }
+
+        public void UpdateCountryInputField(string country)
+        {
+            Clients.All.updateCountryInputField(country);
+        }
+
+        public void UpdateBudgetInputField(int budget)
+        {
+            Clients.All.UpdateBudgetInputField(budget);
+        }
+
+        public void UpdateServicesInputField(int service)
+        {
+            Clients.All.updateServicesInputField(service);
+        }
+
         public void Hello()
         {
             Clients.All.hello();

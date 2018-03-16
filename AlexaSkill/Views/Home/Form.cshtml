@@ -1,7 +1,7 @@
 ﻿@{
-                /**/
+    /**/
 
-                ViewBag.Title = "Form Test Screen";
+    ViewBag.Title = "Form Test Screen";
 }
 <!--Script References -->
 <!--Reference the jQuery library. -->
@@ -18,19 +18,19 @@
 <h1>Welcome Gorillas!!!</h1>
 <div class="row">
     <div class="col-sm-5">
-        <form role="form" id="1">
+        <form role="form" id="1" style="margin-bottom: 10px">
             <h2>Form #1</h2>
             <h3>Your Data Form!</h3>
             <div class="form-group float-label-control">
-                <label for="exampleFirstName">First Name</label>
+                <label class="exampleFirstName" for="exampleFirstName">First Name</label>
                 <input type="text" class="firstName form-control" placeholder="Enter First Name">
             </div>
             <div class="form-group float-label-control">
-                <label for="exampleInputEmail1">Email Address</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+                <label class="exampleInputAge" for="exampleInputAge">Age</label>
+                <input type="number" class="age form-control" id="exampleInputAge" placeholder="Enter Age">
             </div>
         </form>
-        <form role="form" id="2">
+        <form role="form" id="2" style="margin-bottom: 10px">
             <h2>Form #2</h2>
             <h3>Your Data Form!</h3>
             <div class="form-group float-label-control">
@@ -41,20 +41,20 @@
                 <label for="city">City</label>
                 <input id="city" type="text" class="form-control" placeholder="City">
             </div>
-            <div class="form-group float-label-control">
-                <label for="age">Age</label>
-                <input id="age" type="number" class="form-control" placeholder="Age">
-            </div>
+            @*<div class="form-group float-label-control">
+                    <label for="age">Age</label>
+                    <input id="age" type="number" class="form-control" placeholder="Age">
+                </div>*@
         </form>
-        <form role="form" id="3">
+        <form role="form" id="3" style="margin-bottom: 10px">
             <h2>Form #3</h2>
             <h3>Your Data Form!</h3>
             <div class="form-group float-label-control">
-                <label for="firstName">Your Name</label>
-                <input type="text" class="firstName form-control" name="firstName" placeholder="Your Name">
+                <label class="exampleFirstName" for="firstName">Your Name</label>
+                <input type="text" class="firstName form-control" name="firstName">
             </div>
             <div class="form-group float-label-control">
-                <label for="country">Your Country</label>
+                <label for="country" class="yourCountry">Your Country</label>
                 <input type="text" class="country form-control" name="country" placeholder="Your Country">
             </div>
             <div class="form-group">
@@ -105,11 +105,13 @@
 
     let updateFirstNameInput = function (newFirstName) {
         console.log(newFirstName);
+        $('.exampleFirstName').text('');
         $('.firstName').addClass('filled');
         $('.firstName').val(newFirstName);
     }
 
     let updateCountryInput = function (newCountry) {
+        $('.yourCountry').text('');
         $('.country').addClass('filled');
         $('.country').val(newCountry);
     }
@@ -117,6 +119,12 @@
     let updateServiceInput = function (newService) {
         $('.services').addClass('filled');
         $('#services').val('Service' + newService);
+    }
+
+    let updateAgeInputField = function (newAge) {
+        $('.exampleInputAge').text('');
+        $('.age').addClass('filled');
+        $('#exampleInputAge').val(newAge);
     }
 
     let updateBudgetInput = function (newBudget) {
@@ -156,6 +164,11 @@
     $.connection.alexaHub.client.updateBudgetInputField = function (budget) {
         console.log(budget);
         updateBudgetInput(budget);
+    }
+
+    $.connection.alexaHub.client.updateAgeInputField = function (age) {
+        console.log(age);
+        updateAgeInputField(age);
     }
 
 </script>
