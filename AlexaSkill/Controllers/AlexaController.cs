@@ -69,6 +69,9 @@ namespace AlexaSkill.Controllers
                 case "FillInputName":
                     response = FillInputNameHandler(request);
                     break;
+                case "FillInputDate":
+                    response = FillInputDateHandler(request);
+                    break;
                 case "FillInputAge":
                     response = FillInputAgeHandler(request);
                     break;
@@ -130,6 +133,14 @@ namespace AlexaSkill.Controllers
             return new AlexaResponse(output.ToString());
         }
 
+        private AlexaResponse FillInputDateHandler(Request request)
+        {
+            var date = request.SlotsList[0].Value;
+            var output = "We got you, Thanks. ";
+            IHubContext context = GlobalHost.ConnectionManager.GetHubContext<AlexaHub>();
+            context.Clients.All.UpdateDateInputField(date);
+            return new AlexaResponse(output.ToString());
+        }
 
         private AlexaResponse FillInputAgeHandler(Request request)
         {

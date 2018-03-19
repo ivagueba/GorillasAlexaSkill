@@ -6,14 +6,19 @@
     <form id="1">
         <h2 style="margin-bottom:35px">Contact Form</h2>
         <div class="form-group">
-            <label class="exampleFirstName" for="exampleFirstName">First Name</label>
+            <label class="exampleFirstName" for="exampleFirstName">Your Name:</label>
             <input type="text" class="firstName form-control" aria-describedby="firstNameHelp" placeholder="Enter First Name">
             <small id="firstNameHelp" class="form-text text-muted">Awesome name Gorilla!</small>
         </div>
-        <div class="form-group float-label-control">
-            <label class="exampleInputAge" for="exampleInputAge">Age</label>
+        <div class="form-group">
+            <label class="exampleInputAge" for="exampleInputAge">Your Age:</label>
             <input type="number" class="age form-control" id="exampleInputAge" aria-describedby="ageHelp" placeholder="Enter Age">
             <small id="ageHelp" class="form-text text-muted">Tell us your age</small>
+        </div>
+        <div class="form-group">
+            <label class="exampleDateInput" for="exampleDateInput">Select a Date:</label>
+            <input type="date" class="date form-control" id="exampleDateInput" aria-describedby="dateHelp">
+            <small id="dateHelp" class="form-text text-muted">Tell us when you want your appointent to be</small>
         </div>
         <fieldset class="form-group">
             <legend>Radio buttons</legend>
@@ -85,8 +90,6 @@
     $('#2').hide();
 
     let updateFormsVisibility = function (formToDisplay) {
-        $('input').removeClass('filled');
-        $('select').removeClass('filled');
         $('form').trigger("reset").hide('slow');
         $('#' + formToDisplay).show('slow');
     }
@@ -94,30 +97,29 @@
     let updateFirstNameInput = function (newFirstName) {
         console.log(newFirstName);
         $('.exampleFirstName').text('');
-        $('.firstName').addClass('filled');
         $('.firstName').val(newFirstName);
     }
 
     let updateCountryInput = function (newCountry) {
         $('.yourCountry').text('');
-        $('.country').addClass('filled');
         $('.country').val(newCountry);
     }
 
     let updateServiceInput = function (newService) {
-        $('.services').addClass('filled');
         $('#services').val('Service' + newService);
     }
 
     let updateAgeInputField = function (newAge) {
         $('.exampleInputAge').text('');
-        $('.age').addClass('filled');
         $('#exampleInputAge').val(newAge);
     }
 
     let updateBudgetInput = function (newBudget) {
-        $('.budget').addClass('filled');
         $('#budget').val(newBudget);
+    }
+
+    let updateDateInputField = function (newDate) {
+        $('#exampleDateInput').val(newDate);
     }
 
     //Start SignalR Connection with Server
@@ -157,6 +159,11 @@
     $.connection.alexaHub.client.updateAgeInputField = function (age) {
         console.log(age);
         updateAgeInputField(age);
+    }
+
+    $.connection.alexaHub.client.updateDateInputField = function (date) {
+        console.log(date);
+        updateDateInputField(date);
     }
 
 </script>

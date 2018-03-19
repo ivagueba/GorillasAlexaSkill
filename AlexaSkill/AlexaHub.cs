@@ -34,6 +34,11 @@ namespace AlexaSkill
             Clients.All.updateServicesInputField(service);
         }
 
+        public void UpdateDateInputField(string date)
+        {
+            Clients.All.updateDateInputField(date);
+        }
+
         public void Hello()
         {
             Clients.All.hello();
