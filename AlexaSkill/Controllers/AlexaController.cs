@@ -7,10 +7,18 @@ namespace AlexaSkill.Controllers
 {
     public class AlexaController : ApiController
     {
+
+        public readonly IHubContext context;
+
+        public AlexaController()
+        {
+            context = GlobalHost.ConnectionManager.GetHubContext<AlexaHub>();
+        }
+
         [HttpPost, Route("api/alexa/form")]
         public dynamic GetForm(AlexaRequest alexaRequest)
         {
-            var request = new Requests().Create(new AlexaSkillGorillas.Data.Request
+            var request = new Requests().Create(new Request
             {
                 MemberId = (alexaRequest.Session.Attributes == null) ? 0 : alexaRequest.Session.Attributes.MemberId,
                 Timestamp = alexaRequest.Request.Timestamp,
@@ -41,7 +49,6 @@ namespace AlexaSkill.Controllers
                     response = SessionEndedRequestHandler(request);
                     break;
             }
-
             return response;
         }
 
@@ -92,7 +99,6 @@ namespace AlexaSkill.Controllers
                     response = HelpIntent(request);
                     break;
             }
-
             return response;
         }
 
@@ -110,7 +116,7 @@ namespace AlexaSkill.Controllers
 
         private AlexaResponse ShowFormIntentHandler(Request request)
         {
-            var formToLoad = Convert.ToInt32(request.SlotsList[0].Value);
+            var formToLoad = Convert.ToInt32(GetStringSlot(request));
             var output = "Form Number " + formToLoad + " has been loaded for you, please fill the input fills as corresponding.";
             if (formToLoad < 1 || formToLoad > 3)
             {
@@ -118,51 +124,46 @@ namespace AlexaSkill.Controllers
             }
             else
             {
-                IHubContext context = GlobalHost.ConnectionManager.GetHubContext<AlexaHub>();
-                context.Clients.All.UpdateFormVisibility(request.SlotsList[0].Value);
+                context.Clients.All.UpdateFormVisibility(GetStringSlot(request));
             }
             return new AlexaResponse(output.ToString());
         }
 
         private AlexaResponse FillInputNameHandler(Request request)
         {
-            var firstName = request.SlotsList[0].Value;
+            var firstName = GetStringSlot(request);
             var output = "We filled your name, Thanks, " + firstName;
-            IHubContext context = GlobalHost.ConnectionManager.GetHubContext<AlexaHub>();
             context.Clients.All.UpdateFirstNameInputField(firstName);
             return new AlexaResponse(output.ToString());
         }
 
         private AlexaResponse FillInputDateHandler(Request request)
         {
-            var date = request.SlotsList[0].Value;
+            var date = GetStringSlot(request);
             var output = "We got you, Thanks. ";
-            IHubContext context = GlobalHost.ConnectionManager.GetHubContext<AlexaHub>();
             context.Clients.All.UpdateDateInputField(date);
             return new AlexaResponse(output.ToString());
         }
 
         private AlexaResponse FillInputAgeHandler(Request request)
         {
-            var age = request.SlotsList[0].Value;
+            var age = GetStringSlot(request);
             var output = "We filled your age, Thanks.";
-            IHubContext context = GlobalHost.ConnectionManager.GetHubContext<AlexaHub>();
             context.Clients.All.UpdateAgeInputField(age);
             return new AlexaResponse(output.ToString());
         }
 
         private AlexaResponse FillInputCountryHandler(Request request)
         {
-            var country = request.SlotsList[0].Value;
+            var country = GetStringSlot(request);
             var output = "Thank you, really beautiful country is " + country;
-            IHubContext context = GlobalHost.ConnectionManager.GetHubContext<AlexaHub>();
             context.Clients.All.updateCountryInputField(country);
             return new AlexaResponse(output.ToString());
         }
 
         private AlexaResponse FillInputServiceHandler(Request request)
         {
-            var serviceToChoose = Convert.ToInt32(request.SlotsList[0].Value);
+            var serviceToChoose = Convert.ToInt32(GetStringSlot(request));
             var output = "We are experts on that, thanks!";
             if (serviceToChoose < 1 || serviceToChoose > 4)
             {
@@ -170,15 +171,14 @@ namespace AlexaSkill.Controllers
             }
             else
             {
-                IHubContext context = GlobalHost.ConnectionManager.GetHubContext<AlexaHub>();
-                context.Clients.All.updateServicesInputField(request.SlotsList[0].Value);
+                context.Clients.All.updateServicesInputField(GetStringSlot(request));
             }
             return new AlexaResponse(output.ToString());
         }
 
         private AlexaResponse FillInputBudgetHandler(Request request)
         {
-            var budget = Convert.ToInt32(request.SlotsList[0].Value);
+            var budget = Convert.ToInt32(GetStringSlot(request));
 
             var output = "You will get the best product for that price, thanks!";
             if (budget != 1500 && budget != 2000 && budget != 2500)
@@ -187,7 +187,6 @@ namespace AlexaSkill.Controllers
             }
             else
             {
-                IHubContext context = GlobalHost.ConnectionManager.GetHubContext<AlexaHub>();
                 context.Clients.All.updateBudgetInputField(budget);
             }
             return new AlexaResponse(output.ToString());
@@ -197,5 +196,11 @@ namespace AlexaSkill.Controllers
         {
             return null;
         }
+
+        private string GetStringSlot(Request request)
+        {
+            return request.SlotsList[0].Value;
+        }
+
     }
 }
