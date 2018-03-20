@@ -221,7 +221,9 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Scripts\App\AlexaForms.js" />
+    <Content Include="Scripts\App\AlexaContactForm.js" />
+    <Content Include="Scripts\App\AlexaServiceForm.js" />
+    <Content Include="Scripts\App\SignalRConnector.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\HelpPage\Views\Web.config" />
@@ -278,6 +280,7 @@
     <Content Include="Views\Home\Form.cshtml" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.3.1.min.map" />
+    <Content Include="Views\Home\ServiceForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

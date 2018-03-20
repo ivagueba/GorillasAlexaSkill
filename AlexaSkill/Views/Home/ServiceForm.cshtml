@@ -1,0 +1,41 @@
+﻿
+@{
+    ViewBag.Title = "ServiceForm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <form id="2">
+        <h2>Request Service Form</h2>
+        <div class="form-group float-label-control">
+            <label class="exampleFirstName" for="firstName">Your Name</label>
+            <input type="text" class="firstName form-control" name="firstName">
+        </div>
+        <div class="form-group float-label-control">
+            <label for="country" class="yourCountry">Your Country</label>
+            <input type="text" class="country form-control" name="country" placeholder="Your Country">
+        </div>
+        <div class="form-group">
+            <select id="services" name="services" class="services form-control">
+                <option>Choose Services</option>
+                <option value="Service1">Service 1</option>
+                <option value="Service2">Service 2</option>
+                <option value="Service3">Service 3</option>
+                <option value="Service4">Service 4</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <select id="budget" name="budget" class="budget form-control">
+                <option>Budget</option>
+                <option value="1500">$1500</option>
+                <option value="2000">$2000</option>
+                <option value="2500">$2500</option>
+            </select>
+        </div>
+        <button id="submitFormTwo" type="submit" class="btn btn-primary" style="margin-top:10px">Submit</button>
+    </form>
+</div>
+
+<!--Add script to handle the page commands.-->
+<script src="~/Scripts/App/SignalRConnector.js"></script>
+<script src="~/Scripts/App/AlexaServiceForm.js"></script>

@@ -19,5 +19,10 @@ namespace AlexaSkill.Controllers
         {
             return View();
         }
+
+        public ActionResult ServiceForm()
+        {
+            return View();
+        }
     }
 }
