@@ -1,5 +1,4 @@
 ﻿
-
 let updateFormsVisibility = function (formToDisplay) {
     if (formToDisplay === "1") {
         var protocol = "http://"
@@ -25,17 +24,8 @@ let updateServiceInput = function (newService) {
     $('#services').val('Service' + newService);
 }
 
-let updateAgeInputField = function (newAge) {
-    $('.exampleInputAge').text('');
-    $('#exampleInputAge').val(newAge);
-}
-
 let updateBudgetInput = function (newBudget) {
     $('#budget').val(newBudget);
-}
-
-let updateDateInputField = function (newDate) {
-    $('#exampleDateInput').val(newDate);
 }
 
 $.connection.alexaHub.client.updateFormVisibility = function (formId) {
@@ -62,12 +52,3 @@ $.connection.alexaHub.client.updateBudgetInputField = function (budget) {
     updateBudgetInput(budget);
 }
 
-$.connection.alexaHub.client.updateAgeInputField = function (age) {
-    console.log(age);
-    updateAgeInputField(age);
-}
-
-$.connection.alexaHub.client.updateDateInputField = function (date) {
-    console.log(date);
-    updateDateInputField(date);
-}
