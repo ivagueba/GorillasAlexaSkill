@@ -91,6 +91,9 @@ namespace AlexaSkill.Controllers
                 case "FillInputBudget":
                     response = FillInputBudgetHandler(request);
                     break;
+                case "SubmitForm":
+                    response = SubmitForm(request);
+                    break;
                 case "AMAZON.CancelIntent":
                 case "AMAZON.StopIntent":
                     response = CancelOrStopIntentHandler(request);
@@ -100,6 +103,12 @@ namespace AlexaSkill.Controllers
                     break;
             }
             return response;
+        }
+        private AlexaResponse SubmitForm(Request request)
+        {
+            var output = "Thanks.";
+            context.Clients.All.SubmitForm();
+            return new AlexaResponse(output.ToString());
         }
 
         private AlexaResponse HelpIntent(Request request)

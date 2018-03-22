@@ -1,5 +1,5 @@
 ﻿
-let updateFormsVisibility = function (formToDisplay) {
+let updateFormsVisibility = (formToDisplay) => {
     if (formToDisplay === "1") {
         var protocol = "http://"
         var serviceFormURL = window.location.host + '/Home/Form';
@@ -9,45 +9,45 @@ let updateFormsVisibility = function (formToDisplay) {
     }
 }
 
-let updateFirstNameInput = function (newFirstName) {
+let updateFirstNameInput = (newFirstName) => {
     console.log(newFirstName);
     $('.exampleFirstName').text('');
     $('.firstName').val(newFirstName);
 }
 
-let updateCountryInput = function (newCountry) {
+let updateCountryInput = (newCountry) => {
     $('.yourCountry').text('');
     $('.country').val(newCountry);
 }
 
-let updateServiceInput = function (newService) {
+let updateServiceInput = (newService) => {
     $('#services').val('Service' + newService);
 }
 
-let updateBudgetInput = function (newBudget) {
+let updateBudgetInput = (newBudget) => {
     $('#budget').val(newBudget);
 }
 
-$.connection.alexaHub.client.updateFormVisibility = function (formId) {
+$.connection.alexaHub.client.updateFormVisibility = (formId) => {
     console.log(formId);
     updateFormsVisibility(formId);
 }
 
-$.connection.alexaHub.client.updateFirstNameInputField = function (firstName) {
+$.connection.alexaHub.client.updateFirstNameInputField = (firstName) => {
     updateFirstNameInput(firstName);
 }
 
-$.connection.alexaHub.client.updateCountryInputField = function (country) {
+$.connection.alexaHub.client.updateCountryInputField = (country) => {
     console.log(country);
     updateCountryInput(country);
 }
 
-$.connection.alexaHub.client.updateServicesInputField = function (service) {
+$.connection.alexaHub.client.updateServicesInputField = (service) => {
     console.log(service);
     updateServiceInput(service);
 }
 
-$.connection.alexaHub.client.updateBudgetInputField = function (budget) {
+$.connection.alexaHub.client.updateBudgetInputField = (budget) => {
     console.log(budget);
     updateBudgetInput(budget);
 }

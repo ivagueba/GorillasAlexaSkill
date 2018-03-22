@@ -9,6 +9,11 @@ namespace AlexaSkill
             Clients.All.updateFormVisibility(formId);
         }
 
+        public void SubmitForm()
+        {
+            Clients.All.submitForm();
+        }
+
         public void UpdateFirstNameInputField(string firstName)
         {
             Clients.All.updateFirstNameInputField(firstName);

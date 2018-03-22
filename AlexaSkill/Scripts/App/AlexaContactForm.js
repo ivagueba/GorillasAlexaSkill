@@ -1,5 +1,5 @@
 ﻿
-let updateFormsVisibility = function (formToDisplay) {
+let updateFormsVisibility = (formToDisplay) => {
     if (formToDisplay === "2") {
         var protocol = "http://"
         var serviceFormURL = window.location.host + '/Home/ServiceForm';
@@ -9,37 +9,42 @@ let updateFormsVisibility = function (formToDisplay) {
     }
 }
 
-let updateFirstNameInput = function (newFirstName) {
+let updateFirstNameInput = (newFirstName) => {
     console.log(newFirstName);
     $('.exampleFirstName').text('');
     $('.firstName').val(newFirstName);
 }
 
-let updateAgeInputField = function (newAge) {
+let updateAgeInputField = (newAge) => {
     $('.exampleInputAge').text('');
     $('#exampleInputAge').val(newAge);
 }
 
-let updateDateInputField = function (newDate) {
+let updateDateInputField = (newDate) => {
     $('#exampleDateInput').val(newDate);
 }
 
-
-$.connection.alexaHub.client.updateFormVisibility = function (formId) {
+$.connection.alexaHub.client.updateFormVisibility = (formId) => {
     console.log(formId);
     updateFormsVisibility(formId);
 }
 
-$.connection.alexaHub.client.updateFirstNameInputField = function (firstName) {
+$.connection.alexaHub.client.submitForm = () => {
+    console.log("I should submit now!... BUT WAIT I NEED TO VALIDATE STUFF I THINK");
+    let info = validateFormInput();
+    submitContactForm(info);
+}
+
+$.connection.alexaHub.client.updateFirstNameInputField = (firstName) => {
     updateFirstNameInput(firstName);
 }
 
-$.connection.alexaHub.client.updateAgeInputField = function (age) {
+$.connection.alexaHub.client.updateAgeInputField = (age) => {
     console.log(age);
     updateAgeInputField(age);
 }
 
-$.connection.alexaHub.client.updateDateInputField = function (date) {
+$.connection.alexaHub.client.updateDateInputField = (date) => {
     console.log(date);
     updateDateInputField(date);
 }
