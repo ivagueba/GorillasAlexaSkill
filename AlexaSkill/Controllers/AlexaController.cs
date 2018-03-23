@@ -91,6 +91,12 @@ namespace AlexaSkill.Controllers
                 case "FillInputBudget":
                     response = FillInputBudgetHandler(request);
                     break;
+                case "FillTrainingDay":
+                    response = FillTrainingDayHandler(request);
+                    break;
+                case "FillInputGender":
+                    response = FillGenderHandler(request);
+                    break;
                 case "SubmitForm":
                     response = SubmitForm(request);
                     break;
@@ -198,6 +204,22 @@ namespace AlexaSkill.Controllers
             {
                 context.Clients.All.updateBudgetInputField(budget);
             }
+            return new AlexaResponse(output.ToString());
+        }
+
+        private AlexaResponse FillTrainingDayHandler(Request request)
+        {
+            var day = GetStringSlot(request);
+            var output = "Got you";
+            context.Clients.All.UpdateTrainingDayInputField(day);
+            return new AlexaResponse(output.ToString());
+        }
+
+        private AlexaResponse FillGenderHandler(Request request)
+        {
+            var gender = GetStringSlot(request);
+            var output = "Got you";
+            context.Clients.All.UpdateGenderInputField(gender);
             return new AlexaResponse(output.ToString());
         }
 

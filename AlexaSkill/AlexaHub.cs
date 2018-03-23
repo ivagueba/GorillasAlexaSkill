@@ -44,6 +44,16 @@ namespace AlexaSkill
             Clients.All.updateDateInputField(date);
         }
 
+        public void UpdateTrainingDayInputField(string day)
+        {
+            Clients.All.updateTrainingDayInputField(day);
+        }
+
+        public void UpdateGenderInputField(string gender)
+        {
+            Clients.All.updateGenderInputField(gender);
+        }
+
         public void Hello()
         {
             Clients.All.hello();

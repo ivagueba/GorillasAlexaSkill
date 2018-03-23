@@ -24,6 +24,17 @@ let updateDateInputField = (newDate) => {
     $('#exampleDateInput').val(newDate);
 }
 
+let updateTrainingDayInputField = (day) => {
+    const days = day.split(" ");
+    days.forEach(function (i) {
+        $("#" + i.toLowerCase()).prop("checked", true);
+    });
+}
+
+let updateGenderInputField = (gender) => {
+    $('#' + gender.toLowerCase()).prop("checked", true);
+}
+
 $.connection.alexaHub.client.updateFormVisibility = (formId) => {
     console.log(formId);
     updateFormsVisibility(formId);
@@ -47,4 +58,14 @@ $.connection.alexaHub.client.updateAgeInputField = (age) => {
 $.connection.alexaHub.client.updateDateInputField = (date) => {
     console.log(date);
     updateDateInputField(date);
+}
+
+$.connection.alexaHub.client.updateTrainingDayInputField = (day) => {
+    console.log(day);
+    updateTrainingDayInputField(day);
+}
+
+$.connection.alexaHub.client.updateGenderInputField = (gender) => {
+    console.log(gender);
+    updateGenderInputField(gender);
 }
