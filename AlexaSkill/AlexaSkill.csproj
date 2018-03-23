@@ -223,6 +223,7 @@
     <Content Include="Global.asax" />
     <Content Include="Scripts\App\AlexaContactForm.js" />
     <Content Include="Scripts\App\AlexaServiceForm.js" />
+    <Content Include="Scripts\App\AmazonLogin.js" />
     <Content Include="Scripts\App\SignalRConnector.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
