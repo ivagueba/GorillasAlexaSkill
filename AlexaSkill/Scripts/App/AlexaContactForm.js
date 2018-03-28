@@ -35,10 +35,10 @@ let updateGenderInputField = (gender) => {
     $('#' + gender.toLowerCase()).prop("checked", true);
 }
 
-$.connection.alexaHub.client.updateFormVisibility = (formId) => {
+/*$.connection.alexaHub.client.updateFormVisibility = function (formId) {
     console.log(formId);
     updateFormsVisibility(formId);
-}
+}*/
 
 $.connection.alexaHub.client.submitForm = () => {
     console.log("I should submit now!... BUT WAIT I NEED TO VALIDATE STUFF I THINK");

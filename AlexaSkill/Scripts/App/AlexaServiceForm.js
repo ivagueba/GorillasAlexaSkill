@@ -28,10 +28,10 @@ let updateBudgetInput = (newBudget) => {
     $('#budget').val(newBudget);
 }
 
-$.connection.alexaHub.client.updateFormVisibility = (formId) => {
+/*$.connection.alexaHub.client.updateFormVisibility = function (formId) {
     console.log(formId);
     updateFormsVisibility(formId);
-}
+}*/
 
 $.connection.alexaHub.client.updateFirstNameInputField = (firstName) => {
     updateFirstNameInput(firstName);

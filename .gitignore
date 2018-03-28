@@ -680,3 +680,4 @@
 /.vs/AlexaSkill/v15/Server/sqlite3/storage.ide-shm
 /.vs/AlexaSkill/v15/Server/sqlite3/storage.ide-wal
 /.vs/config/applicationhost.config
+/AlexaSkill/obj/Release/Package/PackageTmp
