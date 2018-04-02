@@ -12,5 +12,5 @@ $.connection.alexaHub.client.updateFormVisibility = function (formId) {
     console.log(formId);
     const serviceFormUrl = window.location.host + (formId == 1 ? '/Home/Form' : '/Home/ServiceForm');
 
-    window.location.assign(`https://${serviceFormUrl}`);
+    window.location.assign(`http://${serviceFormUrl}`);
 }

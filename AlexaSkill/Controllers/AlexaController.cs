@@ -15,8 +15,8 @@ namespace AlexaSkill.Controllers
             context = GlobalHost.ConnectionManager.GetHubContext<AlexaHub>();
         }
 
-        [HttpPost, Route("api/alexa/form")]
-        public dynamic GetForm(AlexaRequest alexaRequest)
+        [HttpPost, Route("api/alexa/command")]
+        public dynamic AlexaRequestHandler(AlexaRequest alexaRequest)
         {
             var request = new Requests().Create(new Request
             {
@@ -54,7 +54,7 @@ namespace AlexaSkill.Controllers
 
         private AlexaResponse LaunchRequestHandler(Request request)
         {
-            var response = new AlexaResponse("Welcome Gorillas. Welcome to Website Navigator");
+            var response = new AlexaResponse("Welcome Gorilla to the Website Navigaton Skill for Alexa");
             response.Session.MemberId = request.MemberId;
             response.Response.Card.Title = "Gorillas";
             response.Response.Card.Content = "Hello\ncruel world!";
