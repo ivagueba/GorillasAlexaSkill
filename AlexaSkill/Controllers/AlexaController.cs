@@ -1,4 +1,5 @@
-﻿using AlexaSkillGorillas.Data;
+﻿using AlexaSkill.Models;
+using AlexaSkillGorillas.Data;
 using Microsoft.AspNet.SignalR;
 using System;
 using System.Web.Http;
@@ -7,12 +8,19 @@ namespace AlexaSkill.Controllers
 {
     public class AlexaController : ApiController
     {
-
         public readonly IHubContext context;
 
         public AlexaController()
         {
             context = GlobalHost.ConnectionManager.GetHubContext<AlexaHub>();
+        }
+
+        [HttpPost, Route("api/alexa/submitContactForm")]
+        public IHttpActionResult SubmitContactForm(ContactFormData data)
+        {
+            //Validate data and store in Azure SQL
+            //Still need to check how to match user info from Alexa request to logged in user
+            return Ok();
         }
 
         [HttpPost, Route("api/alexa/command")]
