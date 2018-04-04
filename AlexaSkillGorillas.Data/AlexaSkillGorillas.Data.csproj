@@ -70,6 +70,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AlexaSkillModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="ContactForm.cs">
+      <DependentUpon>AlexaSkillModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Request.partial.cs" />
     <Compile Include="Requests.cs" />
     <Compile Include="Form.cs">

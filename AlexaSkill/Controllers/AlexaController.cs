@@ -15,14 +15,6 @@ namespace AlexaSkill.Controllers
             context = GlobalHost.ConnectionManager.GetHubContext<AlexaHub>();
         }
 
-        [HttpPost, Route("api/alexa/submitContactForm")]
-        public IHttpActionResult SubmitContactForm(ContactFormData data)
-        {
-            //Validate data and store in Azure SQL
-            //Still need to check how to match user info from Alexa request to logged in user
-            return Ok();
-        }
-
         [HttpPost, Route("api/alexa/command")]
         public dynamic AlexaRequestHandler(AlexaRequest alexaRequest)
         {

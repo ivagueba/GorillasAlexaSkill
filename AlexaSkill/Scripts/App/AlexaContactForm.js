@@ -37,8 +37,8 @@ let updateGenderInputField = (gender) => {
 
 let validateData = () => {
     var info = {};
-    info.name = $('#exampleFirstName').val();
-    if (!info.name) {
+    info.firstName = $('#exampleFirstName').val();
+    if (!info.firstName) {
         console.log('NO VALUE HERE BRO');
         $('#exampleFirstName').addClass('is-invalid');
     }
@@ -54,15 +54,26 @@ let validateData = () => {
         console.log('NO VALUE HERE BRO');
         $('#exampleDateInput').addClass('is-invalid');
     }
+    //TODO: Add GENDER AND DAYOF THE WEEK INFO AND VALIDATION
     //info.gender = $('input[name=optionsRadios]:checked').val();
     return info;
 }
 
-let submitContactForm = (info) => {
-    if (!info) {
+let submitContactForm = (contactFormData) => {
+    console.log(contactFormData);
+    let contactFormEndpoint = 'http://' + window.location.host + '/api/contact/submit';
+
+    if (!contactFormData) {
         alert('GO AWAY!!')
+    } else {
+        $.ajax({
+            type: 'POST',
+            url: contactFormEndpoint,
+            data: contactFormData,
+            success: function (data, textStatus) { console.log(textStatus); },
+            error: function (xhr, textStatus, errorThrown) { alert('failed'); }
+        });
     }
-    console.log(info);
 }
 
 $.connection.alexaHub.client.submitForm = () => {

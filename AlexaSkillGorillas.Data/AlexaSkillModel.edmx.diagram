@@ -9,6 +9,7 @@
         <EntityTypeShape EntityType="AlexaGorillas_dbModel.Member" Width="1.5" PointX="0.75" PointY="1.875" IsExpanded="true" />
         <EntityTypeShape EntityType="AlexaGorillas_dbModel.Request" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
         <AssociationConnector Association="AlexaGorillas_dbModel.FK_Members_Requests" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="AlexaGorillas_dbModel.ContactForm" Width="1.5" PointX="0.75" PointY="5.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
