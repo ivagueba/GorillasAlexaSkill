@@ -29,5 +29,8 @@ namespace AlexaSkillGorillas.Data
         public virtual DbSet<Member> Members { get; set; }
         public virtual DbSet<Request> Requests { get; set; }
         public virtual DbSet<ContactForm> ContactForms { get; set; }
+        public virtual DbSet<Employee> Employees { get; set; }
+        public virtual DbSet<Project> Projects { get; set; }
+        public virtual DbSet<Skill> Skills { get; set; }
     }
 }
