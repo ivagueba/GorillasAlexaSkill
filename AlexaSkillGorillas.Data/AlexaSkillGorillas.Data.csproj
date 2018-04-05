@@ -73,6 +73,12 @@
     <Compile Include="ContactForm.cs">
       <DependentUpon>AlexaSkillModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Employee.cs">
+      <DependentUpon>AlexaSkillModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Project.cs">
+      <DependentUpon>AlexaSkillModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Request.partial.cs" />
     <Compile Include="Requests.cs" />
     <Compile Include="Form.cs">
@@ -83,6 +89,9 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Request.cs">
+      <DependentUpon>AlexaSkillModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Skill.cs">
       <DependentUpon>AlexaSkillModel.tt</DependentUpon>
     </Compile>
   </ItemGroup>
