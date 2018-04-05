@@ -9,6 +9,11 @@ namespace AlexaSkill
             Clients.All.updateFormVisibility(formId);
         }
 
+        public void SubmitForm()
+        {
+            Clients.All.submitForm();
+        }
+
         public void UpdateFirstNameInputField(string firstName)
         {
             Clients.All.updateFirstNameInputField(firstName);
@@ -37,6 +42,16 @@ namespace AlexaSkill
         public void UpdateDateInputField(string date)
         {
             Clients.All.updateDateInputField(date);
+        }
+
+        public void UpdateTrainingDayInputField(string day)
+        {
+            Clients.All.updateTrainingDayInputField(day);
+        }
+
+        public void UpdateGenderInputField(string gender)
+        {
+            Clients.All.updateGenderInputField(gender);
         }
 
         public void Hello()

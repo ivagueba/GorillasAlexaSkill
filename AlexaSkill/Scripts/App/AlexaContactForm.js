@@ -1,7 +1,7 @@
 ﻿
-let updateFormsVisibility = function (formToDisplay) {
-    if (formToDisplay === "2") {
-        var protocol = "http://"
+let updateFormsVisibility = (formToDisplay) => {
+    if (formToDisplay === '2') {
+        var protocol = 'http://'
         var serviceFormURL = window.location.host + '/Home/ServiceForm';
         window.location.assign(protocol + serviceFormURL);
     } else {
@@ -9,37 +9,99 @@ let updateFormsVisibility = function (formToDisplay) {
     }
 }
 
-let updateFirstNameInput = function (newFirstName) {
+let updateFirstNameInput = (newFirstName) => {
     console.log(newFirstName);
     $('.exampleFirstName').text('');
     $('.firstName').val(newFirstName);
 }
 
-let updateAgeInputField = function (newAge) {
+let updateAgeInputField = (newAge) => {
     $('.exampleInputAge').text('');
     $('#exampleInputAge').val(newAge);
 }
 
-let updateDateInputField = function (newDate) {
+let updateDateInputField = (newDate) => {
     $('#exampleDateInput').val(newDate);
 }
 
-
-$.connection.alexaHub.client.updateFormVisibility = function (formId) {
-    console.log(formId);
-    updateFormsVisibility(formId);
+let updateTrainingDayInputField = (day) => {
+    const days = day.split(' ');
+    days.forEach(function (i) {
+        $('#' + i.toLowerCase()).prop('checked', true);
+    });
 }
 
-$.connection.alexaHub.client.updateFirstNameInputField = function (firstName) {
+let updateGenderInputField = (gender) => {
+    $('#' + gender.toLowerCase()).prop('checked', true);
+}
+
+let validateData = () => {
+    var info = {};
+    info.firstName = $('#exampleFirstName').val();
+    if (!info.firstName) {
+        console.log('NO VALUE HERE BRO');
+        $('#exampleFirstName').addClass('is-invalid');
+    }
+
+    info.age = $('#exampleInputAge').val();
+    if (!info.age) {
+        console.log('NO VALUE HERE BRO');
+        $('#exampleInputAge').addClass('is-invalid');
+    }
+
+    info.date = $('#exampleDateInput').val();
+    if (!info.date) {
+        console.log('NO VALUE HERE BRO');
+        $('#exampleDateInput').addClass('is-invalid');
+    }
+    //TODO: Add GENDER AND DAYOF THE WEEK INFO AND VALIDATION
+    //info.gender = $('input[name=optionsRadios]:checked').val();
+    return info;
+}
+
+let submitContactForm = (contactFormData) => {
+    console.log(contactFormData);
+    let contactFormEndpoint = 'http://' + window.location.host + '/api/contact/submit';
+
+    if (!contactFormData) {
+        alert('GO AWAY!!')
+    } else {
+        $.ajax({
+            type: 'POST',
+            url: contactFormEndpoint,
+            data: contactFormData,
+            success: function (data, textStatus) { console.log(textStatus); },
+            error: function (xhr, textStatus, errorThrown) { alert('failed'); }
+        });
+    }
+}
+
+$.connection.alexaHub.client.submitForm = () => {
+    console.log('I should submit now!... BUT WAIT I NEED TO VALIDATE STUFF I THINK');
+    let info = validateData();
+    submitContactForm(info);
+}
+
+$.connection.alexaHub.client.updateFirstNameInputField = (firstName) => {
     updateFirstNameInput(firstName);
 }
 
-$.connection.alexaHub.client.updateAgeInputField = function (age) {
+$.connection.alexaHub.client.updateAgeInputField = (age) => {
     console.log(age);
     updateAgeInputField(age);
 }
 
-$.connection.alexaHub.client.updateDateInputField = function (date) {
+$.connection.alexaHub.client.updateDateInputField = (date) => {
     console.log(date);
     updateDateInputField(date);
+}
+
+$.connection.alexaHub.client.updateTrainingDayInputField = (day) => {
+    console.log(day);
+    updateTrainingDayInputField(day);
+}
+
+$.connection.alexaHub.client.updateGenderInputField = (gender) => {
+    console.log(gender);
+    updateGenderInputField(gender);
 }

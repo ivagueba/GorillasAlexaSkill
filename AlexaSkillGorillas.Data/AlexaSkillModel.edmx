@@ -5,6 +5,17 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="AlexaGorillas_dbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ContactForms">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Age" Type="int" Nullable="false" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="Gender" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="DayOfTheWeek" Type="nvarchar" MaxLength="15" Nullable="false" />
+        </EntityType>
         <EntityType Name="Forms">
           <Key>
             <PropertyRef Name="Id" />
@@ -27,7 +38,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="MemberId" Type="int" Nullable="false" />
           <Property Name="SessionId" Type="varchar" MaxLength="500" Nullable="false" />
           <Property Name="AppId" Type="varchar" MaxLength="500" Nullable="false" />
@@ -55,6 +66,7 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="AlexaGorillas_dbModelStoreContainer">
+          <EntitySet Name="ContactForms" EntityType="Self.ContactForms" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Forms" EntityType="Self.Forms" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Members" EntityType="Self.Members" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Requests" EntityType="Self.Requests" Schema="dbo" store:Type="Tables" />
@@ -126,7 +138,19 @@
             <End Role="Members" EntitySet="Members" />
             <End Role="Requests" EntitySet="Requests" />
           </AssociationSet>
+          <EntitySet Name="ContactForms" EntityType="AlexaGorillas_dbModel.ContactForm" />
         </EntityContainer>
+        <EntityType Name="ContactForm">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Age" Type="Int32" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Gender" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="DayOfTheWeek" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -170,6 +194,18 @@
                 <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="Reason" ColumnName="Reason" />
                 <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ContactForms">
+            <EntityTypeMapping TypeName="AlexaGorillas_dbModel.ContactForm">
+              <MappingFragment StoreEntitySet="ContactForms">
+                <ScalarProperty Name="DayOfTheWeek" ColumnName="DayOfTheWeek" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Age" ColumnName="Age" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
