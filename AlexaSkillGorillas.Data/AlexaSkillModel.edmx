@@ -16,6 +16,25 @@
           <Property Name="Gender" Type="nvarchar" MaxLength="10" Nullable="false" />
           <Property Name="DayOfTheWeek" Type="nvarchar" MaxLength="15" Nullable="false" />
         </EntityType>
+        <EntityType Name="Employee_Skills">
+          <Key>
+            <PropertyRef Name="Employee_Id" />
+            <PropertyRef Name="Skill_Id" />
+          </Key>
+          <Property Name="Employee_Id" Type="int" Nullable="false" />
+          <Property Name="Skill_Id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Employees">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="First_Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Last_Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="SlackId" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Project_Id" Type="int" />
+        </EntityType>
         <EntityType Name="Forms">
           <Key>
             <PropertyRef Name="Id" />
@@ -33,6 +52,13 @@
           <Property Name="RequestCount" Type="int" Nullable="false" />
           <Property Name="LastRequestDate" Type="datetime" Nullable="false" />
           <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Projects">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
         </EntityType>
         <EntityType Name="Requests">
           <Key>
@@ -53,6 +79,49 @@
           <Property Name="Reason" Type="varchar" MaxLength="50" />
           <Property Name="DateCreated" Type="datetime" Nullable="false" />
         </EntityType>
+        <EntityType Name="Skills">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Employee_Skills_ToEmployees">
+          <End Role="Employees" Type="Self.Employees" Multiplicity="1" />
+          <End Role="Employee_Skills" Type="Self.Employee_Skills" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Employee_Skills">
+              <PropertyRef Name="Employee_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employee_Skills_ToSkills">
+          <End Role="Skills" Type="Self.Skills" Multiplicity="1" />
+          <End Role="Employee_Skills" Type="Self.Employee_Skills" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Skills">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Employee_Skills">
+              <PropertyRef Name="Skill_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employees_ToProjects">
+          <End Role="Projects" Type="Self.Projects" Multiplicity="0..1" />
+          <End Role="Employees" Type="Self.Employees" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Projects">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Employees">
+              <PropertyRef Name="Project_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Members_Requests">
           <End Role="Members" Type="Self.Members" Multiplicity="1" />
           <End Role="Requests" Type="Self.Requests" Multiplicity="*" />
@@ -67,9 +136,25 @@
         </Association>
         <EntityContainer Name="AlexaGorillas_dbModelStoreContainer">
           <EntitySet Name="ContactForms" EntityType="Self.ContactForms" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Employee_Skills" EntityType="Self.Employee_Skills" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Employees" EntityType="Self.Employees" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Forms" EntityType="Self.Forms" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Members" EntityType="Self.Members" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Projects" EntityType="Self.Projects" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Requests" EntityType="Self.Requests" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Skills" EntityType="Self.Skills" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Employee_Skills_ToEmployees" Association="Self.FK_Employee_Skills_ToEmployees">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="Employee_Skills" EntitySet="Employee_Skills" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employee_Skills_ToSkills" Association="Self.FK_Employee_Skills_ToSkills">
+            <End Role="Skills" EntitySet="Skills" />
+            <End Role="Employee_Skills" EntitySet="Employee_Skills" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employees_ToProjects" Association="Self.FK_Employees_ToProjects">
+            <End Role="Projects" EntitySet="Projects" />
+            <End Role="Employees" EntitySet="Employees" />
+          </AssociationSet>
           <AssociationSet Name="FK_Members_Requests" Association="Self.FK_Members_Requests">
             <End Role="Members" EntitySet="Members" />
             <End Role="Requests" EntitySet="Requests" />
@@ -139,6 +224,17 @@
             <End Role="Requests" EntitySet="Requests" />
           </AssociationSet>
           <EntitySet Name="ContactForms" EntityType="AlexaGorillas_dbModel.ContactForm" />
+          <EntitySet Name="Employees" EntityType="AlexaGorillas_dbModel.Employee" />
+          <EntitySet Name="Projects" EntityType="AlexaGorillas_dbModel.Project" />
+          <AssociationSet Name="FK_Employees_ToProjects" Association="AlexaGorillas_dbModel.FK_Employees_ToProjects">
+            <End Role="Project" EntitySet="Projects" />
+            <End Role="Employee" EntitySet="Employees" />
+          </AssociationSet>
+          <EntitySet Name="Skills" EntityType="AlexaGorillas_dbModel.Skill" />
+          <AssociationSet Name="Employee_Skills" Association="AlexaGorillas_dbModel.Employee_Skills">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="Skill" EntitySet="Skills" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="ContactForm">
           <Key>
@@ -151,6 +247,51 @@
           <Property Name="Gender" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="DayOfTheWeek" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="First_Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Last_Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SlackId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Project_Id" Type="Int32" />
+          <NavigationProperty Name="Project" Relationship="AlexaGorillas_dbModel.FK_Employees_ToProjects" FromRole="Employee" ToRole="Project" />
+          <NavigationProperty Name="Skills" Relationship="AlexaGorillas_dbModel.Employee_Skills" FromRole="Employee" ToRole="Skill" />
+        </EntityType>
+        <EntityType Name="Project">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Employees" Relationship="AlexaGorillas_dbModel.FK_Employees_ToProjects" FromRole="Project" ToRole="Employee" />
+        </EntityType>
+        <Association Name="FK_Employees_ToProjects">
+          <End Type="AlexaGorillas_dbModel.Project" Role="Project" Multiplicity="0..1" />
+          <End Type="AlexaGorillas_dbModel.Employee" Role="Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="Project_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Skill">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Employees" Relationship="AlexaGorillas_dbModel.Employee_Skills" FromRole="Skill" ToRole="Employee" />
+        </EntityType>
+        <Association Name="Employee_Skills">
+          <End Type="AlexaGorillas_dbModel.Employee" Role="Employee" Multiplicity="*" />
+          <End Type="AlexaGorillas_dbModel.Skill" Role="Skill" Multiplicity="*" />
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -209,6 +350,42 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Employees">
+            <EntityTypeMapping TypeName="AlexaGorillas_dbModel.Employee">
+              <MappingFragment StoreEntitySet="Employees">
+                <ScalarProperty Name="Project_Id" ColumnName="Project_Id" />
+                <ScalarProperty Name="SlackId" ColumnName="SlackId" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Last_Name" ColumnName="Last_Name" />
+                <ScalarProperty Name="First_Name" ColumnName="First_Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Projects">
+            <EntityTypeMapping TypeName="AlexaGorillas_dbModel.Project">
+              <MappingFragment StoreEntitySet="Projects">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Skills">
+            <EntityTypeMapping TypeName="AlexaGorillas_dbModel.Skill">
+              <MappingFragment StoreEntitySet="Skills">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="Employee_Skills" TypeName="AlexaGorillas_dbModel.Employee_Skills" StoreEntitySet="Employee_Skills">
+            <EndProperty Name="Skill">
+              <ScalarProperty Name="Id" ColumnName="Skill_Id" />
+            </EndProperty>
+            <EndProperty Name="Employee">
+              <ScalarProperty Name="Id" ColumnName="Employee_Id" />
+            </EndProperty>
+          </AssociationSetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

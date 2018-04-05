@@ -5,11 +5,16 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="f8a3866f14354c71a87d8cee4cfa0928" Name="Diagram1">
-        <EntityTypeShape EntityType="AlexaGorillas_dbModel.Form" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="AlexaGorillas_dbModel.Member" Width="1.5" PointX="0.75" PointY="1.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="AlexaGorillas_dbModel.Request" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="AlexaGorillas_dbModel.Form" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="AlexaGorillas_dbModel.Member" Width="1.5" PointX="0.75" PointY="3.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="AlexaGorillas_dbModel.Request" Width="1.5" PointX="2.625" PointY="3.25" IsExpanded="true" />
         <AssociationConnector Association="AlexaGorillas_dbModel.FK_Members_Requests" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="AlexaGorillas_dbModel.ContactForm" Width="1.5" PointX="0.75" PointY="5.75" />
+        <EntityTypeShape EntityType="AlexaGorillas_dbModel.ContactForm" Width="1.5" PointX="2.5" PointY="0.75" />
+        <EntityTypeShape EntityType="AlexaGorillas_dbModel.Employee" Width="1.5" PointX="7.625" PointY="1" />
+        <EntityTypeShape EntityType="AlexaGorillas_dbModel.Project" Width="1.5" PointX="5.375" PointY="1.375" />
+        <AssociationConnector Association="AlexaGorillas_dbModel.FK_Employees_ToProjects" />
+        <EntityTypeShape EntityType="AlexaGorillas_dbModel.Skill" Width="1.5" PointX="9.75" PointY="1.375" />
+        <AssociationConnector Association="AlexaGorillas_dbModel.Employee_Skills" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
