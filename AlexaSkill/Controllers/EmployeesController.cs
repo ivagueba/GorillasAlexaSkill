@@ -122,10 +122,5 @@ namespace AlexaSkill.Controllers
             }
             base.Dispose(disposing);
         }
-
-        private bool EmployeeExists(int id)
-        {
-            return db.Employees.Count(e => e.Id == id) > 0;
-        }
     }
 }
