@@ -1,129 +1,113 @@
-﻿using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
-using System.Linq;
-using System.Net;
+﻿using System.Collections.Generic;
 using System.Web.Http;
-using System.Web.Http.Description;
-using AlexaSkillGorillas.Data;
+using AlexaSkill.Models;
+using AlexaSkillGorillas.BL.Models;
+using AlexaSkillGorillas.BL.Services;
 
 namespace AlexaSkill.Controllers
 {
     public class ProjectsController : ApiController
     {
-        private AlexaGorillas_dbEntities db = new AlexaGorillas_dbEntities();
+        private ProjectService service = new ProjectService();
 
         // GET: api/Projects
-        public IQueryable<Project> GetProjects()
+        public GenericResponse<List<ProjectModel>> GetProjects()
         {
-            return db.Projects;
+            var result = new GenericResponse<List<ProjectModel>>();
+            var skills = service.GetProjects();
+
+            //TODO: CREATE RESPONSE OBJECT WITH STATUS CODE AND MESSAGE
+            result.Data = skills;
+            return result;
         }
 
         // GET: api/Projects/5
-        [ResponseType(typeof(Project))]
-        public IHttpActionResult GetProject(int id)
+        public GenericResponse<ProjectModel> GetProject(int id)
         {
-            Project project = db.Projects.Find(id);
+            var result = new GenericResponse<ProjectModel>();
+            var project = service.GetProject(id);
             if (project == null)
             {
-                return NotFound();
+                result.StatusCode = 404; //TODO: ENUM THIS
+                result.Message = "NOT FOUND";
             }
-
-            return Ok(project);
+            result.Data = project;
+            return result;
         }
 
         // PUT: api/Projects/5
-        [ResponseType(typeof(void))]
-        public IHttpActionResult PutProject(int id, Project project)
+        public GenericResponse<string> PutProject(int id, ProjectModel project)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return new GenericResponse<string>
+                {
+                    StatusCode = 400,
+                    Message = "BAD REQUEST"
+                };
             }
-
             if (id != project.Id)
             {
-                return BadRequest();
-            }
-
-            db.Entry(project).State = EntityState.Modified;
-
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ProjectExists(id))
+                return new GenericResponse<string>
                 {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                    StatusCode = 400,
+                    Message = "BAD REQUEST"
+                };
             }
+            var result = new GenericResponse<string>
+            {
+                StatusCode = service.UpdateProject(id, project)
+            };
 
-            return StatusCode(HttpStatusCode.NoContent);
+            return result;
         }
 
         // POST: api/Projects
-        [ResponseType(typeof(Project))]
-        public IHttpActionResult PostProject(Project project)
+        public GenericResponse<string> PostProject(ProjectModel project)
         {
+            //TODO: THIS VALIDATION CAN BE EXTRACTED INTO A VALIDATION METHOD FOR REUSABILITY
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
-            }
-
-            db.Projects.Add(project);
-
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateException)
-            {
-                if (ProjectExists(project.Id))
+                return new GenericResponse<string>
                 {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
+                    StatusCode = 400,
+                    Message = "BAD REQUEST"
+                };
             }
 
-            return CreatedAtRoute("DefaultApi", new { id = project.Id }, project);
+            if (service.AddProject(project) == 1)
+            {
+                return new GenericResponse<string>
+                {
+                    StatusCode = 200,
+                    Message = "NO CONTENT"
+                };
+            }
+
+            return new GenericResponse<string>
+            {
+                StatusCode = 500,
+                Message = "SERVER ERROR"
+            };
         }
 
         // DELETE: api/Projects/5
-        [ResponseType(typeof(Project))]
-        public IHttpActionResult DeleteProject(int id)
+        public GenericResponse<string> DeleteProject(int id)
         {
-            Project project = db.Projects.Find(id);
-            if (project == null)
+            if (service.DeleteProject(id) == 1)
             {
-                return NotFound();
+                return new GenericResponse<string>
+                {
+                    StatusCode = 200,
+                    Message = "NO CONTENT"
+                };
             }
 
-            db.Projects.Remove(project);
-            db.SaveChanges();
-
-            return Ok(project);
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
+            return new GenericResponse<string>
             {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-
-        private bool ProjectExists(int id)
-        {
-            return db.Projects.Count(e => e.Id == id) > 0;
+                StatusCode = 500,
+                Message = "SERVER ERROR"
+            };
         }
     }
 }

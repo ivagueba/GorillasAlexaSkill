@@ -93,7 +93,6 @@ namespace AlexaSkill.Controllers
         }
 
         // DELETE: api/Skills/5
-        [ResponseType(typeof(Skill))]
         public GenericResponse<string> DeleteSkill(int id)
         {
             if (service.DeleteSkill(id) == 1)
