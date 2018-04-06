@@ -1,10 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
 using System.Linq;
-using System.Net;
 using System.Web.Http;
-using System.Web.Http.Description;
 using AlexaSkill.Models;
 using AlexaSkillGorillas.BL.Models;
 using AlexaSkillGorillas.BL.Services;
@@ -47,79 +43,75 @@ namespace AlexaSkill.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return new GenericResponse<string>
+                {
+                    StatusCode = 400,
+                    Message = "BAD REQUEST"
+                };
             }
 
             if (id != employee.Id)
             {
-                return BadRequest();
-            }
-
-            db.Entry(employee).State = EntityState.Modified;
-
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!EmployeeExists(id))
+                return new GenericResponse<string>
                 {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                    StatusCode = 400,
+                    Message = "BAD REQUEST"
+                };
             }
+            var result = new GenericResponse<string>
+            {
+                StatusCode = service.UpdateEmployee(id, employee)
+            };
 
-            return StatusCode(HttpStatusCode.NoContent);
+            return result;
         }
 
         // POST: api/Employees
-        [ResponseType(typeof(Employee))]
-        public IHttpActionResult PostEmployee(Employee employee)
+        public GenericResponse<string> PostEmployee(EmployeeModel employee)
         {
+            //TODO: THIS VALIDATION CAN BE EXTRACTED INTO A VALIDATION METHOD FOR REUSABILITY
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
-            }
-
-            db.Employees.Add(employee);
-
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateException)
-            {
-                if (EmployeeExists(employee.Id))
+                return new GenericResponse<string>
                 {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
+                    StatusCode = 400,
+                    Message = "BAD REQUEST"
+                };
             }
 
-            return CreatedAtRoute("DefaultApi", new { id = employee.Id }, employee);
+            if (service.AddEmployee(employee) == 1)
+            {
+                return new GenericResponse<string>
+                {
+                    StatusCode = 200,
+                    Message = "NO CONTENT"
+                };
+            }
+
+            return new GenericResponse<string>
+            {
+                StatusCode = 500,
+                Message = "SERVER ERROR"
+            };
         }
 
         // DELETE: api/Employees/5
-        [ResponseType(typeof(Employee))]
-        public IHttpActionResult DeleteEmployee(int id)
+        public GenericResponse<string> DeleteEmployee(int id)
         {
-            Employee employee = db.Employees.Find(id);
-            if (employee == null)
+            if (service.DeleteEmployee(id) == 1)
             {
-                return NotFound();
+                return new GenericResponse<string>
+                {
+                    StatusCode = 200,
+                    Message = "NO CONTENT"
+                };
             }
 
-            db.Employees.Remove(employee);
-            db.SaveChanges();
-
-            return Ok(employee);
+            return new GenericResponse<string>
+            {
+                StatusCode = 500,
+                Message = "SERVER ERROR"
+            };
         }
 
         protected override void Dispose(bool disposing)
