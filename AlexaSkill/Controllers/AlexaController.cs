@@ -100,6 +100,9 @@ namespace AlexaSkill.Controllers
                 case "SubmitForm":
                     response = SubmitForm(request);
                     break;
+                case "AddSkillToEmployee":
+                    response = AddSkillToEmployee(request);
+                    break;
                 case "AMAZON.CancelIntent":
                 case "AMAZON.StopIntent":
                     response = CancelOrStopIntentHandler(request);
@@ -110,6 +113,33 @@ namespace AlexaSkill.Controllers
             }
             return response;
         }
+
+        private AlexaResponse AddSkillToEmployee(Request request)
+        {
+            var skillId = Convert.ToInt32(request.SlotsList[0].Value);
+            var employeeId = Convert.ToInt32(request.SlotsList[1].Value);
+
+            string output;
+            var db = new AlexaGorillas_dbEntities();
+            var employee = db.Employees.Find(employeeId);
+            var skill = db.Skills.Find(skillId);
+            if (employee != null && skill != null)
+            {
+                employee.Skills.Add(skill);
+                db.SaveChanges();
+                output = $"Skill {skill.Name} Added to Employee {employee.First_Name} {employee.Last_Name}";
+            }
+            else if (skill == null)
+            {
+                output = $"Skill id {skillId} not found";
+            }
+            else
+            {
+                output = $"Employee id {employeeId} not found";
+            }
+            return new AlexaResponse(output);
+        }
+
         private AlexaResponse SubmitForm(Request request)
         {
             var output = "Thanks.";
