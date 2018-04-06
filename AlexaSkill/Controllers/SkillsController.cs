@@ -1,129 +1,115 @@
-﻿using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
-using System.Linq;
-using System.Net;
+﻿using System.Collections.Generic;
 using System.Web.Http;
 using System.Web.Http.Description;
+using AlexaSkill.Models;
+using AlexaSkillGorillas.BL.Models;
+using AlexaSkillGorillas.BL.Services;
 using AlexaSkillGorillas.Data;
 
 namespace AlexaSkill.Controllers
 {
     public class SkillsController : ApiController
     {
-        private AlexaGorillas_dbEntities db = new AlexaGorillas_dbEntities();
+        private SkillService service = new SkillService();
 
         // GET: api/Skills
-        public IQueryable<Skill> GetSkills()
+        public GenericResponse<List<SkillModel>> GetSkills()
         {
-            return db.Skills;
+            var result = new GenericResponse<List<SkillModel>>();
+            var skills = service.GetSkills();
+
+            //TODO: CREATE RESPONSE OBJECT WITH STATUS CODE AND MESSAGE
+            result.Data = skills;
+            return result;
         }
 
         // GET: api/Skills/5
-        [ResponseType(typeof(Skill))]
-        public IHttpActionResult GetSkill(int id)
+        public GenericResponse<SkillModel> GetSkill(int id)
         {
-            Skill skill = db.Skills.Find(id);
+            var result = new GenericResponse<SkillModel>();
+            var skill = service.GetSkill(id);
             if (skill == null)
             {
-                return NotFound();
+                result.StatusCode = 404; //TODO: ENUM THIS
+                result.Message = "NOT FOUND";
             }
-
-            return Ok(skill);
+            result.Data = skill;
+            return result;
         }
 
-        // PUT: api/Skills/5
-        [ResponseType(typeof(void))]
-        public IHttpActionResult PutSkill(int id, Skill skill)
+        public GenericResponse<string> PutSkill(int id, SkillModel skill)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return new GenericResponse<string>
+                {
+                    StatusCode = 400,
+                    Message = "BAD REQUEST"
+                };
             }
-
             if (id != skill.Id)
             {
-                return BadRequest();
-            }
-
-            db.Entry(skill).State = EntityState.Modified;
-
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!SkillExists(id))
+                return new GenericResponse<string>
                 {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                    StatusCode = 400,
+                    Message = "BAD REQUEST"
+                };
             }
+            var result = new GenericResponse<string>
+            {
+                StatusCode = service.UpdateSkill(id, skill)
+            };
 
-            return StatusCode(HttpStatusCode.NoContent);
+            return result;
         }
 
         // POST: api/Skills
-        [ResponseType(typeof(Skill))]
-        public IHttpActionResult PostSkill(Skill skill)
+        public GenericResponse<string> PostSkill(SkillModel skill)
         {
+            //TODO: THIS VALIDATION CAN BE EXTRACTED INTO A VALIDATION METHOD FOR REUSABILITY
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
-            }
-
-            db.Skills.Add(skill);
-
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateException)
-            {
-                if (SkillExists(skill.Id))
+                return new GenericResponse<string>
                 {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
+                    StatusCode = 400,
+                    Message = "BAD REQUEST"
+                };
             }
 
-            return CreatedAtRoute("DefaultApi", new { id = skill.Id }, skill);
+            if (service.AddSkill(skill) == 1)
+            {
+                return new GenericResponse<string>
+                {
+                    StatusCode = 200,
+                    Message = "NO CONTENT"
+                };
+            }
+
+            return new GenericResponse<string>
+            {
+                StatusCode = 500,
+                Message = "SERVER ERROR"
+            };
         }
 
         // DELETE: api/Skills/5
         [ResponseType(typeof(Skill))]
-        public IHttpActionResult DeleteSkill(int id)
+        public GenericResponse<string> DeleteSkill(int id)
         {
-            Skill skill = db.Skills.Find(id);
-            if (skill == null)
+            if (service.DeleteSkill(id) == 1)
             {
-                return NotFound();
+                return new GenericResponse<string>
+                {
+                    StatusCode = 200,
+                    Message = "NO CONTENT"
+                };
             }
 
-            db.Skills.Remove(skill);
-            db.SaveChanges();
-
-            return Ok(skill);
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
+            return new GenericResponse<string>
             {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-
-        private bool SkillExists(int id)
-        {
-            return db.Skills.Count(e => e.Id == id) > 0;
+                StatusCode = 500,
+                Message = "SERVER ERROR"
+            };
         }
     }
 }

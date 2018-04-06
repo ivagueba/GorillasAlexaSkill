@@ -1,16 +1,13 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Web.Http;
 using AlexaSkill.Models;
 using AlexaSkillGorillas.BL.Models;
 using AlexaSkillGorillas.BL.Services;
-using AlexaSkillGorillas.Data;
 
 namespace AlexaSkill.Controllers
 {
     public class EmployeesController : ApiController
     {
-        private AlexaGorillas_dbEntities db = new AlexaGorillas_dbEntities();
         private EmployeeService service = new EmployeeService();
 
         // GET: api/Employees
@@ -114,13 +111,6 @@ namespace AlexaSkill.Controllers
             };
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+
     }
 }
