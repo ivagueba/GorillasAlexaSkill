@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
+using AlexaSkill.Models;
+using AlexaSkillGorillas.BL.Models;
+using AlexaSkillGorillas.BL.Services;
 using AlexaSkillGorillas.Data;
 
 namespace AlexaSkill.Controllers
@@ -15,29 +15,35 @@ namespace AlexaSkill.Controllers
     public class EmployeesController : ApiController
     {
         private AlexaGorillas_dbEntities db = new AlexaGorillas_dbEntities();
+        private EmployeeService service = new EmployeeService();
 
         // GET: api/Employees
-        public IQueryable<Employee> GetEmployees()
+        public GenericResponse<List<EmployeeModel>> GetEmployees()
         {
-            return db.Employees;
+            var result = new GenericResponse<List<EmployeeModel>>();
+            var employees = service.GetEmployees();
+
+            //TODO: CREATE RESPONSE OBJECT
+            result.Data = employees;
+            return result;
         }
 
         // GET: api/Employees/5
-        [ResponseType(typeof(Employee))]
-        public IHttpActionResult GetEmployee(int id)
+        public GenericResponse<EmployeeModel> GetEmployee(int id)
         {
-            Employee employee = db.Employees.Find(id);
+            var result = new GenericResponse<EmployeeModel>();
+            var employee = service.GetEmployee(id);
             if (employee == null)
             {
-                return NotFound();
+                result.StatusCode = 404; //TODO: ENUM THIS
+                result.Message = "NOT FOUND";
             }
-
-            return Ok(employee);
+            result.Data = employee;
+            return result;
         }
 
         // PUT: api/Employees/5
-        [ResponseType(typeof(void))]
-        public IHttpActionResult PutEmployee(int id, Employee employee)
+        public GenericResponse<string> PutEmployee(int id, EmployeeModel employee)
         {
             if (!ModelState.IsValid)
             {

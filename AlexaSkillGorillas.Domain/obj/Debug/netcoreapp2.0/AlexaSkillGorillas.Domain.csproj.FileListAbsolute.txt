@@ -1,0 +1,14 @@
+C:\Users\alonq\Source\Repos\GorillasAlexaSkill\AlexaSkillGorillas.Domain\bin\Debug\netcoreapp2.0\AlexaSkillGorillas.Domain.deps.json
+C:\Users\alonq\Source\Repos\GorillasAlexaSkill\AlexaSkillGorillas.Domain\bin\Debug\netcoreapp2.0\AlexaSkillGorillas.Domain.dll
+C:\Users\alonq\Source\Repos\GorillasAlexaSkill\AlexaSkillGorillas.Domain\bin\Debug\netcoreapp2.0\AlexaSkillGorillas.Data.dll
+C:\Users\alonq\Source\Repos\GorillasAlexaSkill\AlexaSkillGorillas.Domain\bin\Debug\netcoreapp2.0\Newtonsoft.Json.dll
+C:\Users\alonq\Source\Repos\GorillasAlexaSkill\AlexaSkillGorillas.Domain\bin\Debug\netcoreapp2.0\AlexaSkillGorillas.Data.pdb
+C:\Users\alonq\Source\Repos\GorillasAlexaSkill\AlexaSkillGorillas.Domain\bin\Debug\netcoreapp2.0\AlexaSkillGorillas.Data.dll.config
+C:\Users\alonq\Source\Repos\GorillasAlexaSkill\AlexaSkillGorillas.Domain\bin\Debug\netcoreapp2.0\Newtonsoft.Json.xml
+C:\Users\alonq\Source\Repos\GorillasAlexaSkill\AlexaSkillGorillas.Domain\obj\Debug\netcoreapp2.0\AlexaSkillGorillas.Domain.csprojResolveAssemblyReference.cache
+C:\Users\alonq\Source\Repos\GorillasAlexaSkill\AlexaSkillGorillas.Domain\obj\Debug\netcoreapp2.0\AlexaSkillGorillas.Domain.csproj.CoreCompileInputs.cache
+C:\Users\alonq\Source\Repos\GorillasAlexaSkill\AlexaSkillGorillas.Domain\obj\Debug\netcoreapp2.0\AlexaSkillGorillas.Domain.AssemblyInfoInputs.cache
+C:\Users\alonq\Source\Repos\GorillasAlexaSkill\AlexaSkillGorillas.Domain\obj\Debug\netcoreapp2.0\AlexaSkillGorillas.Domain.AssemblyInfo.cs
+C:\Users\alonq\Source\Repos\GorillasAlexaSkill\AlexaSkillGorillas.Domain\bin\Debug\netcoreapp2.0\AlexaSkillGorillas.Domain.pdb
+C:\Users\alonq\Source\Repos\GorillasAlexaSkill\AlexaSkillGorillas.Domain\obj\Debug\netcoreapp2.0\AlexaSkillGorillas.Domain.dll
+C:\Users\alonq\Source\Repos\GorillasAlexaSkill\AlexaSkillGorillas.Domain\obj\Debug\netcoreapp2.0\AlexaSkillGorillas.Domain.pdb

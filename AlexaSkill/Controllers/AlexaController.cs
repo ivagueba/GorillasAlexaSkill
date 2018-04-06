@@ -1,5 +1,4 @@
-﻿using AlexaSkill.Models;
-using AlexaSkillGorillas.Data;
+﻿using AlexaSkillGorillas.Data;
 using Microsoft.AspNet.SignalR;
 using System;
 using System.Web.Http;
@@ -51,7 +50,6 @@ namespace AlexaSkill.Controllers
             }
             return response;
         }
-
         private AlexaResponse LaunchRequestHandler(Request request)
         {
             var response = new AlexaResponse("Welcome Gorilla to the Website Navigaton Skill for Alexa");
@@ -63,7 +61,6 @@ namespace AlexaSkill.Controllers
 
             return response;
         }
-
         private AlexaResponse IntentRequestHandler(Request request)
         {
             AlexaResponse response = null;
@@ -116,19 +113,16 @@ namespace AlexaSkill.Controllers
             context.Clients.All.SubmitForm();
             return new AlexaResponse(output.ToString());
         }
-
         private AlexaResponse HelpIntent(Request request)
         {
             var response = new AlexaResponse("To use the Gorillas skill, you can say,", false);
             response.Response.Reprompt.OutputSpeech.Text = "Please select one form";
             return response;
         }
-
         private AlexaResponse CancelOrStopIntentHandler(Request request)
         {
             return new AlexaResponse("Thanks for listening, let's talk again soon.", true);
         }
-
         private AlexaResponse ShowFormIntentHandler(Request request)
         {
             var formToLoad = Convert.ToInt32(GetStringSlot(request));
@@ -143,7 +137,6 @@ namespace AlexaSkill.Controllers
             }
             return new AlexaResponse(output.ToString());
         }
-
         private AlexaResponse FillInputNameHandler(Request request)
         {
             var firstName = GetStringSlot(request);
@@ -151,7 +144,6 @@ namespace AlexaSkill.Controllers
             context.Clients.All.UpdateFirstNameInputField(firstName);
             return new AlexaResponse(output.ToString());
         }
-
         private AlexaResponse FillInputDateHandler(Request request)
         {
             var date = GetStringSlot(request);
@@ -159,7 +151,6 @@ namespace AlexaSkill.Controllers
             context.Clients.All.UpdateDateInputField(date);
             return new AlexaResponse(output.ToString());
         }
-
         private AlexaResponse FillInputAgeHandler(Request request)
         {
             var age = GetStringSlot(request);
@@ -167,7 +158,6 @@ namespace AlexaSkill.Controllers
             context.Clients.All.UpdateAgeInputField(age);
             return new AlexaResponse(output.ToString());
         }
-
         private AlexaResponse FillInputCountryHandler(Request request)
         {
             var country = GetStringSlot(request);
@@ -175,7 +165,6 @@ namespace AlexaSkill.Controllers
             context.Clients.All.updateCountryInputField(country);
             return new AlexaResponse(output.ToString());
         }
-
         private AlexaResponse FillInputServiceHandler(Request request)
         {
             var serviceToChoose = Convert.ToInt32(GetStringSlot(request));
@@ -190,7 +179,6 @@ namespace AlexaSkill.Controllers
             }
             return new AlexaResponse(output.ToString());
         }
-
         private AlexaResponse FillInputBudgetHandler(Request request)
         {
             var budget = Convert.ToInt32(GetStringSlot(request));
@@ -206,7 +194,6 @@ namespace AlexaSkill.Controllers
             }
             return new AlexaResponse(output.ToString());
         }
-
         private AlexaResponse FillTrainingDayHandler(Request request)
         {
             var day = GetStringSlot(request);
@@ -214,7 +201,6 @@ namespace AlexaSkill.Controllers
             context.Clients.All.UpdateTrainingDayInputField(day);
             return new AlexaResponse(output.ToString());
         }
-
         private AlexaResponse FillGenderHandler(Request request)
         {
             var gender = GetStringSlot(request);
@@ -222,16 +208,13 @@ namespace AlexaSkill.Controllers
             context.Clients.All.UpdateGenderInputField(gender);
             return new AlexaResponse(output.ToString());
         }
-
         private AlexaResponse SessionEndedRequestHandler(Request request)
         {
             return null;
         }
-
         private string GetStringSlot(Request request)
         {
             return request.SlotsList[0].Value;
         }
-
     }
 }
