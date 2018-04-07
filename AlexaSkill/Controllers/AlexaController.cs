@@ -147,7 +147,7 @@ namespace AlexaSkill.Controllers
                 employee.Project = project;
                 db.SaveChanges();
 
-                output = $"Employee {employee.First_Name}, {employee.Last_Name} added to project {project.Name}";
+                output = $"Employee {employee.First_Name} {employee.Last_Name}, added to project {project.Name}";
             }
             return new AlexaResponse(output);
         }
