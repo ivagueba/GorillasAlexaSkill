@@ -106,5 +106,36 @@ namespace AlexaSkillGorillas.BL.Services
         {
             return db.Projects.Count(e => e.Id == id) > 0;
         }
+
+        public string AddEmployeeToProjectByName(string employeeName, string projectName)
+        {
+            string result;
+
+            var project = db.Projects.FirstOrDefault(p => p.Name.Contains(projectName));
+            var employees = db.Employees.Where(
+                e => employeeName.Contains(e.First_Name) || employeeName.Contains(e.Last_Name)
+            ).ToList();
+
+            if (project == null)
+            {
+                result = $"Could not find any project with the name: {projectName}";
+            }
+            else if (employees.Count != 1)
+            {
+                result = employees.Count == 0
+                    ? $"Could not find any employee with the name {employeeName}"
+                    : $"More than one employee with the name {employeeName} found";
+            }
+            else
+            {
+                var employee = employees.First();
+                employee.Project = project;
+                db.SaveChanges();
+
+                result = $"Employee {employee.First_Name} {employee.Last_Name}, added to project {project.Name}";
+            }
+
+            return result;
+        }
     }
 }

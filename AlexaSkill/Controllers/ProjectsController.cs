@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Web.Http;
+using AlexaSkill.Helper;
 using AlexaSkill.Models;
 using AlexaSkillGorillas.BL.Models;
 using AlexaSkillGorillas.BL.Services;
@@ -8,13 +9,20 @@ namespace AlexaSkill.Controllers
 {
     public class ProjectsController : ApiController
     {
-        private ProjectService service = new ProjectService();
+        private readonly ProjectService _service;
+        private readonly SignalRClientMethodsHelper _signalRClientMethodsHelper;
+
+        public ProjectsController()
+        {
+            _signalRClientMethodsHelper = new SignalRClientMethodsHelper();
+            _service = new ProjectService();
+        }
 
         // GET: api/Projects
         public GenericResponse<List<ProjectModel>> GetProjects()
         {
             var result = new GenericResponse<List<ProjectModel>>();
-            var skills = service.GetProjects();
+            var skills = _service.GetProjects();
 
             //TODO: CREATE RESPONSE OBJECT WITH STATUS CODE AND MESSAGE
             result.Data = skills;
@@ -25,7 +33,7 @@ namespace AlexaSkill.Controllers
         public GenericResponse<ProjectModel> GetProject(int id)
         {
             var result = new GenericResponse<ProjectModel>();
-            var project = service.GetProject(id);
+            var project = _service.GetProject(id);
             if (project == null)
             {
                 result.StatusCode = 404; //TODO: ENUM THIS
@@ -54,12 +62,17 @@ namespace AlexaSkill.Controllers
                     Message = "BAD REQUEST"
                 };
             }
-            var result = new GenericResponse<string>
-            {
-                StatusCode = service.UpdateProject(id, project)
-            };
 
-            return result;
+            var statusCode = _service.UpdateProject(id, project);
+            if (statusCode == 200)
+            {
+                _signalRClientMethodsHelper.RefreshEmployeesList();
+            }
+            
+            return new GenericResponse<string>
+            {
+                StatusCode = statusCode
+            };
         }
 
         // POST: api/Projects
@@ -75,8 +88,9 @@ namespace AlexaSkill.Controllers
                 };
             }
 
-            if (service.AddProject(project) == 1)
+            if (_service.AddProject(project) == 1)
             {
+                _signalRClientMethodsHelper.RefreshProjectsList();
                 return new GenericResponse<string>
                 {
                     StatusCode = 200,
@@ -94,8 +108,9 @@ namespace AlexaSkill.Controllers
         // DELETE: api/Projects/5
         public GenericResponse<string> DeleteProject(int id)
         {
-            if (service.DeleteProject(id) == 1)
+            if (_service.DeleteProject(id) == 1)
             {
+                _signalRClientMethodsHelper.RefreshProjectsList();
                 return new GenericResponse<string>
                 {
                     StatusCode = 200,

@@ -125,5 +125,36 @@ namespace AlexaSkillGorillas.BL.Services
         {
             return db.Employees.Count(e => e.Id == id) > 0;
         }
+
+        public string AddSkillToEmployeeByName(string skillName, string employeeName)
+        {
+            string result;
+            
+            var skill = db.Skills.FirstOrDefault(p => p.Name.Contains(skillName));
+            var employees = db.Employees.Where(
+                e => employeeName.Contains(e.First_Name) || employeeName.Contains(e.Last_Name)
+            ).ToList();
+
+            if (skill == null)
+            {
+                result = $"Skill id {skillName} not found";
+            }
+            else if (employees.Count != 1)
+            {
+                result = employees.Count == 0
+                    ? $"Could not find any employee with the name {employeeName}"
+                    : $"More than one employee with the name {employeeName} found";
+            }
+            else
+            {
+                var employee = employees.First();
+                employee.Skills.Add(skill);
+                db.SaveChanges();
+                result = $"Skill {skill.Name} Added to Employee {employee.First_Name} {employee.Last_Name}";
+            }
+
+            return result;
+        }
+        
     }
 }

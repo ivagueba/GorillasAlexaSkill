@@ -1,7 +1,7 @@
 ﻿
 let updateFormsVisibility = (formToDisplay) => {
     if (formToDisplay === '2') {
-        var protocol = 'http://'
+        var protocol = 'https://'
         var serviceFormURL = window.location.host + '/Home/ServiceForm';
         window.location.assign(protocol + serviceFormURL);
     } else {
@@ -82,26 +82,26 @@ $.connection.alexaHub.client.submitForm = () => {
     submitContactForm(info);
 }
 
-$.connection.alexaHub.client.updateFirstNameInputField = (firstName) => {
-    updateFirstNameInput(firstName);
+$.connection.alexaHub.client.updateFormField = (fieldName, value) => {
+    switch (fieldName) {
+        case 'firstName': 
+            updateFirstNameInput(value);
+            break;
+        case 'date':
+            updateDateInputField(value);
+            break;
+        case 'age':
+            updateAgeInputField(value);
+            break;
+        case 'trainingDay':
+            updateTrainingDayInputField(value);
+            break;
+        case 'gender':
+            updateGenderInputField(value);
+            break;
+    }
 }
 
-$.connection.alexaHub.client.updateAgeInputField = (age) => {
-    console.log(age);
-    updateAgeInputField(age);
-}
-
-$.connection.alexaHub.client.updateDateInputField = (date) => {
-    console.log(date);
-    updateDateInputField(date);
-}
-
-$.connection.alexaHub.client.updateTrainingDayInputField = (day) => {
-    console.log(day);
-    updateTrainingDayInputField(day);
-}
-
-$.connection.alexaHub.client.updateGenderInputField = (gender) => {
-    console.log(gender);
-    updateGenderInputField(gender);
+$.connection.alexaHub.client.GetEmployeesList = (employeesList) => {
+    console.log(employeesList);
 }

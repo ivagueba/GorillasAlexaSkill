@@ -1,19 +1,25 @@
 ﻿using AlexaSkillGorillas.Data;
-using Microsoft.AspNet.SignalR;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using AlexaSkill.Helper;
+using AlexaSkillGorillas.BL.Services;
 
 namespace AlexaSkill.Controllers
 {
     public class AlexaController : ApiController
     {
-        public readonly IHubContext context;
+        private readonly SignalRClientMethodsHelper _signalRClientMethodsHelper;
+        private readonly EmployeeService _employeeService;
+        private readonly SkillService _skillService;
+        private readonly ProjectService _projectService;
 
         public AlexaController()
         {
-            context = GlobalHost.ConnectionManager.GetHubContext<AlexaHub>();
+            _signalRClientMethodsHelper = new SignalRClientMethodsHelper();
+            _employeeService = new EmployeeService();
+            _skillService = new SkillService();
+            _projectService = new ProjectService();
         }
 
         [HttpPost, Route("api/alexa/command")]
@@ -120,32 +126,10 @@ namespace AlexaSkill.Controllers
         {
             var projectName = request.SlotsList.FirstOrDefault(s => s.Key == "projectName").Value;
             var employeeName = request.SlotsList.FirstOrDefault(s => s.Key == "employeeName").Value;
-            
-            var db = new AlexaGorillas_dbEntities();
 
-            var project = db.Projects.FirstOrDefault(p => p.Name.Contains(projectName));
-            var employees = db.Employees.Where(
-                e => employeeName.Contains(e.First_Name) || employeeName.Contains(e.Last_Name)
-            ).ToList();
+            var output = _projectService.AddEmployeeToProjectByName(employeeName, projectName);
+            _signalRClientMethodsHelper.RefreshProjectsList();
 
-            string output;
-            
-            if (project == null)
-            {
-                output = $"Could not find any project with the name: {projectName}";
-            }
-            else if (employees.Count != 1)
-            {
-                output = GetInvaliedEmployeeNameOutput(employees, employeeName);
-            }
-            else
-            {
-                var employee = employees.First();
-                employee.Project = project;
-                db.SaveChanges();
-
-                output = $"Employee {employee.First_Name} {employee.Last_Name}, added to project {project.Name}";
-            }
             return new AlexaResponse(output);
         }
 
@@ -154,43 +138,17 @@ namespace AlexaSkill.Controllers
             var skillName = request.SlotsList.FirstOrDefault(s => s.Key == "skillName").Value;
             var employeeName = request.SlotsList.FirstOrDefault(s => s.Key == "employeeName").Value;
 
-            string output;
-            var db = new AlexaGorillas_dbEntities();
-            var skill = db.Skills.FirstOrDefault(p => p.Name.Contains(skillName));
-            var employees = db.Employees.Where(
-                e => employeeName.Contains(e.First_Name) || employeeName.Contains(e.Last_Name)
-            ).ToList();
+            var output = _employeeService.AddSkillToEmployeeByName(skillName, employeeName);
+            _signalRClientMethodsHelper.RefreshEmployeesList();
 
-            if (skill == null)
-            {
-                output = $"Skill id {skillName} not found";
-            }
-            else if (employees.Count != 1)
-            {
-                output = GetInvaliedEmployeeNameOutput(employees, employeeName);
-            }
-            else
-            {
-                var employee = employees.First();
-                employee.Skills.Add(skill);
-                db.SaveChanges();
-                output = $"Skill {skill.Name} Added to Employee {employee.First_Name} {employee.Last_Name}";
-            }
             return new AlexaResponse(output);
-        }
-
-        private string GetInvaliedEmployeeNameOutput(List<Employee> employees, string employeeName)
-        {
-            return employees.Count == 0 
-                ? $"Could not find any employee with the name {employeeName}" 
-                : $"More than one employee with the name {employeeName} found";
         }
 
         private AlexaResponse SubmitForm(Request request)
         {
             var output = "Thanks.";
-            context.Clients.All.SubmitForm();
-            return new AlexaResponse(output.ToString());
+            _signalRClientMethodsHelper.SubmitForm();
+            return new AlexaResponse(output);
         }
         private AlexaResponse HelpIntent(Request request)
         {
@@ -212,37 +170,45 @@ namespace AlexaSkill.Controllers
             }
             else
             {
-                context.Clients.All.UpdateFormVisibility(GetStringSlot(request));
+                _signalRClientMethodsHelper.ShowForm(formToLoad);
             }
-            return new AlexaResponse(output.ToString());
+            return new AlexaResponse(output);
         }
         private AlexaResponse FillInputNameHandler(Request request)
         {
             var firstName = GetStringSlot(request);
             var output = "We filled your name, Thanks, " + firstName;
-            context.Clients.All.UpdateFirstNameInputField(firstName);
-            return new AlexaResponse(output.ToString());
+
+            _signalRClientMethodsHelper.UpdateFormField("firstName", firstName);
+            
+            return new AlexaResponse(output);
         }
         private AlexaResponse FillInputDateHandler(Request request)
         {
             var date = GetStringSlot(request);
             var output = "We got you, Thanks. ";
-            context.Clients.All.UpdateDateInputField(date);
-            return new AlexaResponse(output.ToString());
+
+            _signalRClientMethodsHelper.UpdateFormField("date", date);
+            
+            return new AlexaResponse(output);
         }
         private AlexaResponse FillInputAgeHandler(Request request)
         {
             var age = GetStringSlot(request);
             var output = "We filled your age, Thanks.";
-            context.Clients.All.UpdateAgeInputField(age);
+
+            _signalRClientMethodsHelper.UpdateFormField("age", age);
+            
             return new AlexaResponse(output.ToString());
         }
         private AlexaResponse FillInputCountryHandler(Request request)
         {
             var country = GetStringSlot(request);
             var output = "Thank you, really beautiful country is " + country;
-            context.Clients.All.updateCountryInputField(country);
-            return new AlexaResponse(output.ToString());
+
+            _signalRClientMethodsHelper.UpdateFormField("country", country);
+
+            return new AlexaResponse(output);
         }
         private AlexaResponse FillInputServiceHandler(Request request)
         {
@@ -254,9 +220,9 @@ namespace AlexaSkill.Controllers
             }
             else
             {
-                context.Clients.All.updateServicesInputField(GetStringSlot(request));
+                _signalRClientMethodsHelper.UpdateFormField("service", serviceToChoose.ToString());
             }
-            return new AlexaResponse(output.ToString());
+            return new AlexaResponse(output);
         }
         private AlexaResponse FillInputBudgetHandler(Request request)
         {
@@ -269,23 +235,25 @@ namespace AlexaSkill.Controllers
             }
             else
             {
-                context.Clients.All.updateBudgetInputField(budget);
+                _signalRClientMethodsHelper.UpdateFormField("budget", budget.ToString());
             }
-            return new AlexaResponse(output.ToString());
+            return new AlexaResponse(output);
         }
         private AlexaResponse FillTrainingDayHandler(Request request)
         {
             var day = GetStringSlot(request);
             var output = "Got you";
-            context.Clients.All.UpdateTrainingDayInputField(day);
-            return new AlexaResponse(output.ToString());
+
+            _signalRClientMethodsHelper.UpdateFormField("trainingDay", day);
+            return new AlexaResponse(output);
         }
         private AlexaResponse FillGenderHandler(Request request)
         {
             var gender = GetStringSlot(request);
             var output = "Got you";
-            context.Clients.All.UpdateGenderInputField(gender);
-            return new AlexaResponse(output.ToString());
+            
+            _signalRClientMethodsHelper.UpdateFormField("gender", gender);
+            return new AlexaResponse(output);
         }
         private AlexaResponse SessionEndedRequestHandler(Request request)
         {

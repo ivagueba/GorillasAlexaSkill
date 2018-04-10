@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Web.Http;
+using AlexaSkill.Helper;
 using AlexaSkill.Models;
 using AlexaSkillGorillas.BL.Models;
 using AlexaSkillGorillas.BL.Services;
@@ -8,13 +9,20 @@ namespace AlexaSkill.Controllers
 {
     public class EmployeesController : ApiController
     {
-        private EmployeeService service = new EmployeeService();
+        private EmployeeService _service;
+        private readonly SignalRClientMethodsHelper _signalRClientMethodsHelper;
+
+        public EmployeesController()
+        {
+            _service  = new EmployeeService();
+            _signalRClientMethodsHelper = new SignalRClientMethodsHelper();
+        }
 
         // GET: api/Employees
         public GenericResponse<List<EmployeeModel>> GetEmployees()
         {
             var result = new GenericResponse<List<EmployeeModel>>();
-            var employees = service.GetEmployees();
+            var employees = _service.GetEmployees();
 
             //TODO: CREATE RESPONSE OBJECT
             result.Data = employees;
@@ -25,7 +33,7 @@ namespace AlexaSkill.Controllers
         public GenericResponse<EmployeeModel> GetEmployee(int id)
         {
             var result = new GenericResponse<EmployeeModel>();
-            var employee = service.GetEmployee(id);
+            var employee = _service.GetEmployee(id);
             if (employee == null)
             {
                 result.StatusCode = 404; //TODO: ENUM THIS
@@ -55,12 +63,18 @@ namespace AlexaSkill.Controllers
                     Message = "BAD REQUEST"
                 };
             }
-            var result = new GenericResponse<string>
-            {
-                StatusCode = service.UpdateEmployee(id, employee)
-            };
 
-            return result;
+
+            var status = _service.UpdateEmployee(id, employee);
+            if (status == 200)
+            {
+                _signalRClientMethodsHelper.RefreshEmployeesList();
+            }
+
+            return new GenericResponse<string>
+            {
+                StatusCode = status
+            };
         }
 
         // POST: api/Employees
@@ -76,8 +90,9 @@ namespace AlexaSkill.Controllers
                 };
             }
 
-            if (service.AddEmployee(employee) == 1)
+            if (_service.AddEmployee(employee) == 1)
             {
+                _signalRClientMethodsHelper.RefreshEmployeesList();
                 return new GenericResponse<string>
                 {
                     StatusCode = 200,
@@ -95,8 +110,9 @@ namespace AlexaSkill.Controllers
         // DELETE: api/Employees/5
         public GenericResponse<string> DeleteEmployee(int id)
         {
-            if (service.DeleteEmployee(id) == 1)
+            if (_service.DeleteEmployee(id) == 1)
             {
+                _signalRClientMethodsHelper.RefreshEmployeesList();
                 return new GenericResponse<string>
                 {
                     StatusCode = 200,
