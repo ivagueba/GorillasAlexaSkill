@@ -1,6 +1,8 @@
 ﻿using AlexaSkillGorillas.Data;
 using Microsoft.AspNet.SignalR;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Web.Http;
 
 namespace AlexaSkill.Controllers
@@ -97,6 +99,12 @@ namespace AlexaSkill.Controllers
                 case "SubmitForm":
                     response = SubmitForm(request);
                     break;
+                case "AddSkillToEmployee":
+                    response = AddSkillToEmployee(request);
+                    break;
+                case "AddEmployeeToProject":
+                    response = AddEmployeeToProject(request);
+                    break;
                 case "AMAZON.CancelIntent":
                 case "AMAZON.StopIntent":
                     response = CancelOrStopIntentHandler(request);
@@ -107,6 +115,77 @@ namespace AlexaSkill.Controllers
             }
             return response;
         }
+
+        private AlexaResponse AddEmployeeToProject(Request request)
+        {
+            var projectName = request.SlotsList.FirstOrDefault(s => s.Key == "projectName").Value;
+            var employeeName = request.SlotsList.FirstOrDefault(s => s.Key == "employeeName").Value;
+            
+            var db = new AlexaGorillas_dbEntities();
+
+            var project = db.Projects.FirstOrDefault(p => p.Name.Contains(projectName));
+            var employees = db.Employees.Where(
+                e => employeeName.Contains(e.First_Name) || employeeName.Contains(e.Last_Name)
+            ).ToList();
+
+            string output;
+            
+            if (project == null)
+            {
+                output = $"Could not find any project with the name: {projectName}";
+            }
+            else if (employees.Count != 1)
+            {
+                output = GetInvaliedEmployeeNameOutput(employees, employeeName);
+            }
+            else
+            {
+                var employee = employees.First();
+                employee.Project = project;
+                db.SaveChanges();
+
+                output = $"Employee {employee.First_Name} {employee.Last_Name}, added to project {project.Name}";
+            }
+            return new AlexaResponse(output);
+        }
+
+        private AlexaResponse AddSkillToEmployee(Request request)
+        {
+            var skillName = request.SlotsList.FirstOrDefault(s => s.Key == "skillName").Value;
+            var employeeName = request.SlotsList.FirstOrDefault(s => s.Key == "employeeName").Value;
+
+            string output;
+            var db = new AlexaGorillas_dbEntities();
+            var skill = db.Skills.FirstOrDefault(p => p.Name.Contains(skillName));
+            var employees = db.Employees.Where(
+                e => employeeName.Contains(e.First_Name) || employeeName.Contains(e.Last_Name)
+            ).ToList();
+
+            if (skill == null)
+            {
+                output = $"Skill id {skillName} not found";
+            }
+            else if (employees.Count != 1)
+            {
+                output = GetInvaliedEmployeeNameOutput(employees, employeeName);
+            }
+            else
+            {
+                var employee = employees.First();
+                employee.Skills.Add(skill);
+                db.SaveChanges();
+                output = $"Skill {skill.Name} Added to Employee {employee.First_Name} {employee.Last_Name}";
+            }
+            return new AlexaResponse(output);
+        }
+
+        private string GetInvaliedEmployeeNameOutput(List<Employee> employees, string employeeName)
+        {
+            return employees.Count == 0 
+                ? $"Could not find any employee with the name {employeeName}" 
+                : $"More than one employee with the name {employeeName} found";
+        }
+
         private AlexaResponse SubmitForm(Request request)
         {
             var output = "Thanks.";
