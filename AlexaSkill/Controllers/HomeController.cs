@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using AlexaSkill.Models;
+using AlexaSkillGorillas.Data;
 
 namespace AlexaSkill.Controllers
 {
@@ -17,7 +19,15 @@ namespace AlexaSkill.Controllers
 
         public ActionResult Form()
         {
-            return View();
+            var model = new FormModel();
+            using (var db = new AlexaGorillas_dbEntities())
+            {
+                model.Projects = db.Projects.ToList();
+                model.Employees = db.Employees.ToList();
+                model.Skills = db.Skills.ToList();
+            }
+            
+                return View(model);
         }
 
         public ActionResult ServiceForm()

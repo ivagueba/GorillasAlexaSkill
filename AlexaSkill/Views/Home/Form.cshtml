@@ -1,89 +1,294 @@
-﻿@{
+﻿@model AlexaSkill.Models.FormModel
+@{
     ViewBag.Title = "Form Test Screen";
 }
+@using AlexaSkillGorillas.Data;
 
+<div class="row justify-content-center">
+    <div class="col-sm-3 col-md-3">
+    </div>
+    <div class="col-lg">
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="mb-2">
+                    <span>Projects</span><br />
+                    <span>@Model.Projects.Count()</span>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="mb-2">
+                    <span>Employees</span><br />
+                    <span>@Model.Employees.Count()</span>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="mb-2">
+                    <span>Skills</span><br />
+                    <span>@Model.Skills.Count()</span>
+                </div>
+            </div>
+            @*<div class="col-sm-3">
+                    <div class="mb-2">
+                        <span>Managers</span><br />
+                        <span>10</span>
+                    </div>
+                </div>*@
+        </div>
+    </div>
+    <div class="col-sm">
+    </div>
+</div>
 <div class="row" style="margin-bottom: 30px">
-    <form id="1">
-        <h2 style="margin-bottom:35px">Contact Form</h2>
-        <div class="form-group">
-            <label class="exampleFirstName" for="exampleFirstName">Your Name:</label>
-            <input type="text" id="exampleFirstName" class="firstName form-control" aria-describedby="firstNameHelp" placeholder="Enter First Name">
-            <small id="firstNameHelp" class="form-text text-muted">Awesome name Gorilla!</small>
+    <div class="col-sm-3 col-md-3">
+
+        <div id="accordion">
+            <div class="card mb-2">
+                <div class="card-header" id="headingOne">
+                    <h5 class="card-title mb-0">
+                        <span class="oi oi-folder">
+                        </span>
+                        <a data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" href="#collapseOne">
+                            Projects
+                        </a>
+                    </h5>
+                </div>
+                <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                    <ul class="list-group">
+                        @foreach (Project item in Model.Projects)
+                        {
+                            <li class="list-group-item"><span class="oi oi-pin mr-3"></span><a href="#">@item.Name</a></li>
+                        }
+                        @*<li class="list-group-item"><span class="glyphicon glyphicon-pencil text-primary"></span><a href="#">Projects 1</a></li>
+                            <li class="list-group-item"><span class="glyphicon glyphicon-flash text-success"></span><a href="#">Projects 2</a></li>
+                            <li class="list-group-item"><span class="glyphicon glyphicon-file text-info"></span><a href="#">Projects 3</a></li>
+                            <li class="list-group-item"> <span class="glyphicon glyphicon-comment text-success"></span><a href="#">Projects 4</a></li>*@
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card mb-2">
+                <div class="card-header" id="headingTwo">
+                    <h4 class="card-title mb-0">
+                        <span class="oi oi-people"></span>
+                        <a class="collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo" href="#collapseTwo">
+                            Employees
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                    <ul class="list-group">
+                        @foreach (Employee item in Model.Employees)
+                        {
+                            <li class="list-group-item"><span class="oi oi-person mr-3"></span><a href="#">@item.First_Name</a></li>
+                        }
+                        @*<li class="list-group-item"><span class="oi oi-person"></span><a href="#">Manager 1</a></li>
+                            <li class="list-group-item"><span class="oi oi-person"></span><a href="#">Manager 2</a></li>
+                            <li class="list-group-item"><span class="oi oi-person"></span><a href="#">Manager 3</a></li>
+                            <li class="list-group-item"><span class="oi oi-person"></span><a href="#">Manager 4</a></li>*@
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card mb-2">
+                <div class="card-header" id="headingThree">
+                    <h4 class="card-title mb-0">
+                        <span class="oi oi-cog"></span>
+                        <a data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree" href="#collapseThree">
+                            Skills
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                    <ul class="list-group">
+                        @foreach (Skill item in Model.Skills)
+                        {
+                            <li class="list-group-item"><span class="oi oi-code mr-3"></span><a href="#">@item.Name</a></li>
+                        }
+                        @*<li class="list-group-item"><span class="oi oi-person"></span><a href="#">Developer 1</a></li>
+                            <li class="list-group-item"><span class="oi oi-person"></span><a href="#">Developer 2</a></li>
+                            <li class="list-group-item"><span class="oi oi-person"></span><a href="#">Developer 3</a></li>
+                            <li class="list-group-item"><span class="oi oi-person"></span><a href="#">Developer 4</a></li>*@
+                    </ul>
+                </div>
+            </div>
         </div>
-        <div class="form-group">
-            <label class="exampleInputAge" for="exampleInputAge">Your Age:</label>
-            <input type="number" class="age form-control" id="exampleInputAge" aria-describedby="ageHelp" placeholder="Enter Age">
-            <small id="ageHelp" class="form-text text-muted">Tell us your age</small>
+
+    </div>
+    <div class="col-lg">
+        <form id="1">
+            <h2 style="margin-bottom:35px">Contact Form</h2>
+            <div class="form-group">
+                <label class="exampleFirstName" for="exampleFirstName">Your Name:</label>
+                <input type="text" id="exampleFirstName" class="firstName form-control" aria-describedby="firstNameHelp" placeholder="Enter First Name">
+                <small id="firstNameHelp" class="form-text text-muted">Awesome name Gorilla!</small>
+            </div>
+            <div class="form-group">
+                <label class="exampleInputAge" for="exampleInputAge">Your Age:</label>
+                <input type="number" class="age form-control" id="exampleInputAge" aria-describedby="ageHelp" placeholder="Enter Age">
+                <small id="ageHelp" class="form-text text-muted">Tell us your age</small>
+            </div>
+            <div class="form-group">
+                <label class="exampleDateInput" for="exampleDateInput">Select a Date:</label>
+                <input type="date" class="date form-control" id="exampleDateInput" aria-describedby="dateHelp">
+                <small id="dateHelp" class="form-text text-muted">Tell us when you want your appointent to be</small>
+            </div>
+            <fieldset class="form-group">
+                <legend>Gender</legend>
+                <div class="form-check">
+                    <label class="form-check-label">
+                        <input type="radio" class="form-check-input" name="optionsRadios" id="male" value="male">
+                        Male
+                    </label>
+                </div>
+                <div class="form-check">
+                    <label class="form-check-label">
+                        <input type="radio" class="form-check-input" name="optionsRadios" id="female" value="female">
+                        Female
+                    </label>
+                </div>
+            </fieldset>
+            <fieldset class="form-group">
+                <legend>Pick Training Days</legend>
+                <div class="form-check">
+                    <label class="form-check-label">
+                        <input type="checkbox" class="form-check-input" id="monday" value="monday">
+                        Monday
+                    </label>
+                </div>
+                <div class="form-check">
+                    <label class="form-check-label">
+                        <input type="checkbox" class="form-check-input" id="tuesday" value="tuesday">
+                        Tuesday
+                    </label>
+                </div>
+                <div class="form-check">
+                    <label class="form-check-label">
+                        <input type="checkbox" class="form-check-input" id="wednesday" value="wednesday">
+                        Wednesday
+                    </label>
+                </div>
+                <div class="form-check">
+                    <label class="form-check-label">
+                        <input type="checkbox" class="form-check-input" id="thursday" value="thursday">
+                        Thursday
+                    </label>
+                </div>
+                <div class="form-check">
+                    <label class="form-check-label">
+                        <input type="checkbox" class="form-check-input" id="friday" value="friday">
+                        Friday
+                    </label>
+                </div>
+                <div class="form-check">
+                    <label class="form-check-label">
+                        <input type="checkbox" class="form-check-input" id="saturday" value="saturday">
+                        Saturday
+                    </label>
+                </div>
+                <div class="form-check">
+                    <label class="form-check-label">
+                        <input type="checkbox" class="form-check-input" id="sunday" value="sunday">
+                        Sunday
+                    </label>
+                </div>
+            </fieldset>
+            <button id="SubmitForm" type="submit" class="btn btn-primary" style="margin-top:10px">Submit</button>
+        </form>
+    </div>
+    <div class="col-sm">
+        <div class="card mb-2">
+            <div class="card-header">
+                <h4 class="card-title mb-0">
+                    <span class="oi oi-clock mr-3"></span>
+                    Activity Log
+                </h4>
+            </div>
+            <div class="card-body">
+                <a href="#">User 1</a> added new skill.<br />
+                <a href="#">User 2</a> updated <a href="#">Project 1</a>.<br />
+                <a href="#">User 5</a> added new employee.<br />
+                <a href="#">User 3</a> removed skill.<br />
+            </div>
         </div>
-        <div class="form-group">
-            <label class="exampleDateInput" for="exampleDateInput">Select a Date:</label>
-            <input type="date" class="date form-control" id="exampleDateInput" aria-describedby="dateHelp">
-            <small id="dateHelp" class="form-text text-muted">Tell us when you want your appointent to be</small>
+        <div class="card">
+            <ul class="treeview">
+                <li>
+                    <a href="#">Employees by Project</a>
+                    <ul>
+                        @foreach (Project item in Model.Projects)
+                        {
+                            <li>
+                                <a href="#">@item.Name</a>
+                                <ul>
+                                    <li><a href="#">Employee</a></li>
+                                </ul>
+                                @*<ul>
+                                        @foreach (Employee emplo in item.Employees)
+                                        {
+                                            <li><a href="#">@emplo.First_Name</a></li>
+                                        }
+                                    </ul>*@
+
+                            </li>
+                        }
+                    </ul>
+                </li>
+            </ul>
+
         </div>
-        <fieldset class="form-group">
-            <legend>Gender</legend>
-            <div class="form-check">
-                <label class="form-check-label">
-                    <input type="radio" class="form-check-input" name="optionsRadios" id="male" value="male">
-                    Male
-                </label>
+        <nav class="d-md-block bg-light sidebar">
+            <div class="sidebar-sticky">
+
+                <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                    <span>Projects by Manager</span>
+                    <a class="d-flex align-items-center text-muted" href="#">
+                        <span data-feather="plus-circle"></span>
+                    </a>
+                </h6>
+                <ul class="nav flex-column mb-2">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <span data-feather="file-text"></span>
+                            Project 1
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <span data-feather="file-text"></span>
+                            Project 2
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <span data-feather="file-text"></span>
+                            Project 3
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <span data-feather="file-text"></span>
+                            Project 4
+                        </a>
+                    </li>
+                </ul>
             </div>
-            <div class="form-check">
-                <label class="form-check-label">
-                    <input type="radio" class="form-check-input" name="optionsRadios" id="female" value="female">
-                    Female
-                </label>
-            </div>
-        </fieldset>
-        <fieldset class="form-group">
-            <legend>Pick Training Days</legend>
-            <div class="form-check">
-                <label class="form-check-label">
-                    <input type="checkbox" class="form-check-input" id="monday" value="monday">
-                    Monday
-                </label>
-            </div>
-            <div class="form-check">
-                <label class="form-check-label">
-                    <input type="checkbox" class="form-check-input" id="tuesday" value="tuesday">
-                    Tuesday
-                </label>
-            </div>
-            <div class="form-check">
-                <label class="form-check-label">
-                    <input type="checkbox" class="form-check-input" id="wednesday" value="wednesday">
-                    Wednesday
-                </label>
-            </div>
-            <div class="form-check">
-                <label class="form-check-label">
-                    <input type="checkbox" class="form-check-input" id="thursday" value="thursday">
-                    Thursday
-                </label>
-            </div>
-            <div class="form-check">
-                <label class="form-check-label">
-                    <input type="checkbox" class="form-check-input" id="friday" value="friday">
-                    Friday
-                </label>
-            </div>
-            <div class="form-check">
-                <label class="form-check-label">
-                    <input type="checkbox" class="form-check-input" id="saturday" value="saturday">
-                    Saturday
-                </label>
-            </div>
-            <div class="form-check">
-                <label class="form-check-label">
-                    <input type="checkbox" class="form-check-input" id="sunday" value="sunday">
-                    Sunday
-                </label>
-            </div>
-        </fieldset>
-        <button id="SubmitForm" type="submit" class="btn btn-primary" style="margin-top:10px">Submit</button>
-    </form>
+        </nav>
+
+    </div>
 </div>
 
 <!--Add script to handle the page commands.-->
 @*<script src="~/Scripts/App/SignalRConnector.js"></script>*@
 <script src="~/Scripts/App/AlexaContactForm.js"></script>
+
+@*<script>
+        $('#projectsList').on('shown.bs.collapse', function () {
+            $(this).prev().find(".oi").removeClass("oi-plus").addClass("oi-minus");
+        });
+
+        //The reverse of the above on hidden event:
+
+        $('#projectsList').on('hidden.bs.collapse', function () {
+            $(this).prev().find(".oi").removeClass("oi-minus").addClass("oi-plus");
+        });
+    </script>*@

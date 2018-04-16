@@ -223,3 +223,8 @@
         opacity: 1;
     }
 }
+
+
+#accordion a:hover, #accordion a {
+    text-decoration: none;
+}
