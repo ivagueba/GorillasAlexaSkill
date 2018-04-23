@@ -1,0 +1,15 @@
+﻿@model AlexaSkillGorillas.Data.Project
+
+<li>
+    <a href="#">@Model.Name</a>
+    @if (Model.Employees != null && Model.Employees.Count() > 0)
+    {
+
+        <ul>
+            @foreach (AlexaSkillGorillas.Data.Employee emplo in Model.Employees)
+            {
+                <li><a href="#">@emplo.First_Name</a></li>
+            }
+        </ul>
+    }
+</li>

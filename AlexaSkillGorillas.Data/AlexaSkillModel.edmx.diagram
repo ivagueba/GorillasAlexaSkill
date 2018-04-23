@@ -10,11 +10,12 @@
         <EntityTypeShape EntityType="AlexaGorillas_dbModel.Request" Width="1.5" PointX="2.625" PointY="3.25" IsExpanded="true" />
         <AssociationConnector Association="AlexaGorillas_dbModel.FK_Members_Requests" ManuallyRouted="false" />
         <EntityTypeShape EntityType="AlexaGorillas_dbModel.ContactForm" Width="1.5" PointX="2.5" PointY="0.75" />
-        <EntityTypeShape EntityType="AlexaGorillas_dbModel.Employee" Width="1.5" PointX="7.625" PointY="1" />
+        <EntityTypeShape EntityType="AlexaGorillas_dbModel.Employee" Width="1.5" PointX="7.625" PointY="1" IsExpanded="true" />
         <EntityTypeShape EntityType="AlexaGorillas_dbModel.Project" Width="1.5" PointX="5.375" PointY="1.375" />
         <AssociationConnector Association="AlexaGorillas_dbModel.FK_Employees_ToProjects" />
         <EntityTypeShape EntityType="AlexaGorillas_dbModel.Skill" Width="1.5" PointX="9.75" PointY="1.375" />
         <AssociationConnector Association="AlexaGorillas_dbModel.Employee_Skills" />
+        <EntityTypeShape EntityType="AlexaGorillas_dbModel.sysdiagram" Width="1.5" PointX="5.375" PointY="4.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

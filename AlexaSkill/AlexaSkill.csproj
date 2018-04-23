@@ -257,6 +257,7 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Properties\PublishProfiles\AlexaSkill20180418021803 - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\AlexaSkillGorillas - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
@@ -290,6 +291,10 @@
     <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.3.1.min.map" />
     <Content Include="Views\Home\ServiceForm.cshtml" />
+    <Content Include="Views\Shared\_Employees.cshtml" />
+    <Content Include="Views\Shared\_FormProject.cshtml" />
+    <Content Include="Views\Shared\_FormEmployee.cshtml" />
+    <Content Include="Views\Shared\_FormSkill.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -19,11 +19,27 @@ namespace AlexaSkillGorillas.BL.Services
             //TODO: Use an automapper for this
             foreach (var project in projects)
             {
-                result.Add(new ProjectModel
+                ProjectModel proj = new ProjectModel
                 {
                     Id = project.Id,
                     Name = project.Name
-                });
+                };
+                
+                List<EmployeeModel> employees = new List<EmployeeModel>();
+                foreach (var employee in project.Employees)
+                {
+                    EmployeeModel emp = new EmployeeModel();
+                    emp.FirstName = employee.First_Name;
+                    emp.LastName = employee.Last_Name;
+                    emp.Email = employee.Email;
+                    emp.Id = employee.Id;
+                    emp.SlackId = employee.SlackId;
+                    emp.ProjectId = employee.Project_Id.ToString();
+                    employees.Add(emp);
+                }
+                proj.Employees = employees;
+
+                result.Add(proj);
             }
             return result;
         }

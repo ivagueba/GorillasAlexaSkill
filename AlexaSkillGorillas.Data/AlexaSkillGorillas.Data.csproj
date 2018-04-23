@@ -94,6 +94,9 @@
     <Compile Include="Skill.cs">
       <DependentUpon>AlexaSkillModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="sysdiagram.cs">
+      <DependentUpon>AlexaSkillModel.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EntityDeploy Include="AlexaSkillModel.edmx">

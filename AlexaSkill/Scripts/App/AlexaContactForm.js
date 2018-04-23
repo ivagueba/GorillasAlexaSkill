@@ -104,4 +104,19 @@ $.connection.alexaHub.client.updateFormField = (fieldName, value) => {
 
 $.connection.alexaHub.client.GetEmployeesList = (employeesList) => {
     console.log(employeesList);
+    var htmlResult = "";
+    htmlResult += "<ul><li><a href='#'>Employees by Project</a><ul>";
+    $(employeesList).each(function (index, project) {       
+        htmlResult += "<li><a href = '#'>" + project.Name + "</a>";
+        if ($(project.Employees).length > 0) {
+            htmlResult += "<ul>";
+            $(project.Employees).each(function (index, employee) {
+                htmlResult += "<li><a href='#'>" + employee.FirstName + "</a></li>";
+            });
+            htmlResult += "</ul>";
+        }
+        htmlResult += "</li>"; 
+    });
+    htmlResult += "</ul></li></ul>";
+    $('#tvProjEmp').html(htmlResult);
 }

@@ -47,7 +47,7 @@
                     <h5 class="card-title mb-0">
                         <span class="oi oi-folder">
                         </span>
-                        <a data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" href="#collapseOne">
+                        <a id="newProject" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" href="#collapseOne">
                             Projects
                         </a>
                     </h5>
@@ -70,7 +70,7 @@
                 <div class="card-header" id="headingTwo">
                     <h4 class="card-title mb-0">
                         <span class="oi oi-people"></span>
-                        <a class="collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo" href="#collapseTwo">
+                        <a id="newEmployee" class="collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo" href="#collapseTwo">
                             Employees
                         </a>
                     </h4>
@@ -93,7 +93,7 @@
                 <div class="card-header" id="headingThree">
                     <h4 class="card-title mb-0">
                         <span class="oi oi-cog"></span>
-                        <a data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree" href="#collapseThree">
+                        <a id="newSkill" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree" href="#collapseThree">
                             Skills
                         </a>
                     </h4>
@@ -115,85 +115,13 @@
 
     </div>
     <div class="col-lg">
-        <form id="1">
-            <h2 style="margin-bottom:35px">Contact Form</h2>
-            <div class="form-group">
-                <label class="exampleFirstName" for="exampleFirstName">Your Name:</label>
-                <input type="text" id="exampleFirstName" class="firstName form-control" aria-describedby="firstNameHelp" placeholder="Enter First Name">
-                <small id="firstNameHelp" class="form-text text-muted">Awesome name Gorilla!</small>
-            </div>
-            <div class="form-group">
-                <label class="exampleInputAge" for="exampleInputAge">Your Age:</label>
-                <input type="number" class="age form-control" id="exampleInputAge" aria-describedby="ageHelp" placeholder="Enter Age">
-                <small id="ageHelp" class="form-text text-muted">Tell us your age</small>
-            </div>
-            <div class="form-group">
-                <label class="exampleDateInput" for="exampleDateInput">Select a Date:</label>
-                <input type="date" class="date form-control" id="exampleDateInput" aria-describedby="dateHelp">
-                <small id="dateHelp" class="form-text text-muted">Tell us when you want your appointent to be</small>
-            </div>
-            <fieldset class="form-group">
-                <legend>Gender</legend>
-                <div class="form-check">
-                    <label class="form-check-label">
-                        <input type="radio" class="form-check-input" name="optionsRadios" id="male" value="male">
-                        Male
-                    </label>
-                </div>
-                <div class="form-check">
-                    <label class="form-check-label">
-                        <input type="radio" class="form-check-input" name="optionsRadios" id="female" value="female">
-                        Female
-                    </label>
-                </div>
-            </fieldset>
-            <fieldset class="form-group">
-                <legend>Pick Training Days</legend>
-                <div class="form-check">
-                    <label class="form-check-label">
-                        <input type="checkbox" class="form-check-input" id="monday" value="monday">
-                        Monday
-                    </label>
-                </div>
-                <div class="form-check">
-                    <label class="form-check-label">
-                        <input type="checkbox" class="form-check-input" id="tuesday" value="tuesday">
-                        Tuesday
-                    </label>
-                </div>
-                <div class="form-check">
-                    <label class="form-check-label">
-                        <input type="checkbox" class="form-check-input" id="wednesday" value="wednesday">
-                        Wednesday
-                    </label>
-                </div>
-                <div class="form-check">
-                    <label class="form-check-label">
-                        <input type="checkbox" class="form-check-input" id="thursday" value="thursday">
-                        Thursday
-                    </label>
-                </div>
-                <div class="form-check">
-                    <label class="form-check-label">
-                        <input type="checkbox" class="form-check-input" id="friday" value="friday">
-                        Friday
-                    </label>
-                </div>
-                <div class="form-check">
-                    <label class="form-check-label">
-                        <input type="checkbox" class="form-check-input" id="saturday" value="saturday">
-                        Saturday
-                    </label>
-                </div>
-                <div class="form-check">
-                    <label class="form-check-label">
-                        <input type="checkbox" class="form-check-input" id="sunday" value="sunday">
-                        Sunday
-                    </label>
-                </div>
-            </fieldset>
-            <button id="SubmitForm" type="submit" class="btn btn-primary" style="margin-top:10px">Submit</button>
-        </form>
+
+        @Html.Partial("_FormProject")
+
+        @Html.Partial("_FormEmployee")
+
+        @Html.Partial("_FormSkill")
+
     </div>
     <div class="col-sm">
         <div class="card mb-2">
@@ -210,26 +138,30 @@
                 <a href="#">User 3</a> removed skill.<br />
             </div>
         </div>
-        <div class="card">
+        <div class="card" id="tvProjEmp">
             <ul class="treeview">
                 <li>
                     <a href="#">Employees by Project</a>
                     <ul>
                         @foreach (Project item in Model.Projects)
-                        {
-                            <li>
-                                <a href="#">@item.Name</a>
-                                <ul>
-                                    <li><a href="#">Employee</a></li>
-                                </ul>
-                                @*<ul>
-                                        @foreach (Employee emplo in item.Employees)
-                                        {
-                                            <li><a href="#">@emplo.First_Name</a></li>
-                                        }
-                                    </ul>*@
+        {
+                        
+                            Html.RenderPartial("_Employees", item);
+                            @*@if(item.Employees.Count > 0)
+        {
+            Html.RenderPartial("_Employees", item);
+        }*@
+                            @*<ul>
+                                <li><a href="#">Employee</a></li>
+                            </ul>*@
 
-                            </li>
+                            @*<ul>
+            @foreach (Employee emplo in item.Employees)
+            {
+                <li><a href="#">emplo.First_Name</a></li>
+            }
+        </ul>*@
+
                         }
                     </ul>
                 </li>
@@ -280,6 +212,41 @@
 <!--Add script to handle the page commands.-->
 @*<script src="~/Scripts/App/SignalRConnector.js"></script>*@
 <script src="~/Scripts/App/AlexaContactForm.js"></script>
+<script>
+    $(document).ready(function () {        
+        var form = '@ViewBag.form';
+             switch (form) {
+                 case "projects":
+                     $('#collapseOne').collapse("show")
+                $('form').hide();
+                $('#formProject').show();
+                break;
+                 case "employees":
+                     $('#collapseTwo').collapse("show")
+                $('form').hide();
+                $('#formEmployee').show();
+                break;
+                 case "skills":
+                     $('#collapseThree').collapse("show")
+                $('form').hide();
+                $('#formSkill').show();
+                break;
+        }
+    });
+    $('#collapseOne').on('show.bs.collapse', function () {
+        $('form').hide();
+        $('#formProject').show();  
+    });
+    $('#collapseTwo').on('show.bs.collapse', function () {
+        $('form').hide();
+        $('#formEmployee').show();
+    });
+    $('#collapseThree').on('show.bs.collapse', function () {
+        $('form').hide();
+        $('#formSkill').show();
+    });
+    
+</script>
 
 @*<script>
         $('#projectsList').on('shown.bs.collapse', function () {

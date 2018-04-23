@@ -1,0 +1,81 @@
+﻿
+@using (Html.BeginForm("SubmitSkill", "Home", FormMethod.Post, new { id = "formSkill", @style = "display:none" }))
+{
+    <h2 style="margin-bottom:35px">Contact Form</h2>
+    <div class="form-group">
+        <label class="exampleFirstName" for="exampleFirstName">Your Name:</label>
+        <input type="text" id="exampleFirstName" class="firstName form-control" aria-describedby="firstNameHelp" placeholder="Enter First Name">
+        <small id="firstNameHelp" class="form-text text-muted">Awesome name Gorilla!</small>
+    </div>
+    <div class="form-group">
+        <label class="exampleInputAge" for="exampleInputAge">Your Age:</label>
+        <input type="number" class="age form-control" id="exampleInputAge" aria-describedby="ageHelp" placeholder="Enter Age">
+        <small id="ageHelp" class="form-text text-muted">Tell us your age</small>
+    </div>
+    <div class="form-group">
+        <label class="exampleDateInput" for="exampleDateInput">Select a Date:</label>
+        <input type="date" class="date form-control" id="exampleDateInput" aria-describedby="dateHelp">
+        <small id="dateHelp" class="form-text text-muted">Tell us when you want your appointent to be</small>
+    </div>
+    <fieldset class="form-group">
+        <legend>Gender</legend>
+        <div class="form-check">
+            <label class="form-check-label">
+                <input type="radio" class="form-check-input" name="optionsRadios" id="male" value="male">
+                Male
+            </label>
+        </div>
+        <div class="form-check">
+            <label class="form-check-label">
+                <input type="radio" class="form-check-input" name="optionsRadios" id="female" value="female">
+                Female
+            </label>
+        </div>
+    </fieldset>
+    <fieldset class="form-group">
+        <legend>Pick Training Days</legend>
+        <div class="form-check">
+            <label class="form-check-label">
+                <input type="checkbox" class="form-check-input" id="monday" value="monday">
+                Monday
+            </label>
+        </div>
+        <div class="form-check">
+            <label class="form-check-label">
+                <input type="checkbox" class="form-check-input" id="tuesday" value="tuesday">
+                Tuesday
+            </label>
+        </div>
+        <div class="form-check">
+            <label class="form-check-label">
+                <input type="checkbox" class="form-check-input" id="wednesday" value="wednesday">
+                Wednesday
+            </label>
+        </div>
+        <div class="form-check">
+            <label class="form-check-label">
+                <input type="checkbox" class="form-check-input" id="thursday" value="thursday">
+                Thursday
+            </label>
+        </div>
+        <div class="form-check">
+            <label class="form-check-label">
+                <input type="checkbox" class="form-check-input" id="friday" value="friday">
+                Friday
+            </label>
+        </div>
+        <div class="form-check">
+            <label class="form-check-label">
+                <input type="checkbox" class="form-check-input" id="saturday" value="saturday">
+                Saturday
+            </label>
+        </div>
+        <div class="form-check">
+            <label class="form-check-label">
+                <input type="checkbox" class="form-check-input" id="sunday" value="sunday">
+                Sunday
+            </label>
+        </div>
+    </fieldset>
+    <button id="SubmitForm" type="submit" class="btn btn-primary" style="margin-top:10px">Submit</button>
+}

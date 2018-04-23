@@ -1,0 +1,23 @@
+﻿@using (Html.BeginForm("SubmitEmployee", "Home", FormMethod.Post, new { id = "formEmployee", @style = "display:none" }))
+{
+    <h2 style="margin-bottom:35px">Employee Form</h2>
+    <div class="form-group">
+        @Html.Label("FirstName", "Name:", new { @class = "exampleFirstName" })
+        @Html.TextBox("FirstName", "", new { @class = "firstName form-control", aria_describedby = "firstNameHelp", placeholder = "Enter First Name" })
+        <small id="firstNameHelp" class="form-text text-muted">Awesome name Gorilla!</small>
+    </div>
+    <div class="form-group">
+        @Html.Label("LastName", "Last Name:", new { @class = "exampleFirstName" })
+        @Html.TextBox("LastName", "", new { @class = "firstName form-control", aria_describedby = "LastNameHelp", placeholder = "Enter Last Name" })
+    </div>
+    <div class="form-group">
+        @Html.Label("Email", "Email:", new { @class = "exampleFirstName" })
+        @Html.TextBox("Email", "", new { @class = "firstName form-control", aria_describedby = "EmailHelp", placeholder = "Enter Email" })
+    </div>
+    <div class="form-group">
+        @Html.Label("SlackId", "SlackId:", new { @class = "exampleFirstName" })
+        @Html.TextBox("SlackId", "", new { @class = "firstName form-control", aria_describedby = "SlackHelp", placeholder = "Enter Slack Id" })
+    </div>
+
+    <button id="SubmitForm" type="submit" class="btn btn-primary" style="margin-top:10px">Submit</button>
+}

@@ -33,9 +33,9 @@ namespace AlexaSkill.Helper
             _hubContext.Clients.All.SubmitForm();
         }
 
-        public void ShowForm(int formNumber)
+        public void ShowForm(string form)
         {
-            _hubContext.Clients.All.UpdateFormVisibility(formNumber);
+            _hubContext.Clients.All.UpdateFormVisibility(form);
         }
 
         public void UpdateFormField(string fieldName, string value)

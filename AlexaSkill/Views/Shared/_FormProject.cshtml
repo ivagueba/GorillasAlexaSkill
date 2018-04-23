@@ -1,0 +1,11 @@
+﻿@using (Html.BeginForm("SubmitProject", "Home", FormMethod.Post, new { id = "formProject" }))
+{
+    <h2 style="margin-bottom:35px"> Project Form </h2>
+    <div class="form-group">
+        @Html.Label("projectName", "Name:", new { @class = "exampleFirstName" })
+        @Html.TextBox("projectName", "", new { @class = "firstName form-control", aria_describedby = "firstNameHelp", placeholder = "Enter Project Name" })
+        <small id="firstNameHelp" class="form-text text-muted">Awesome name Alexa!</small>
+    </div>
+
+    <button id="SubmitForm" type="submit" class="btn btn-primary" style="margin-top:10px">Submit</button>
+}

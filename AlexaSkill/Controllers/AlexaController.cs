@@ -130,7 +130,7 @@ namespace AlexaSkill.Controllers
             var output = _projectService.AddEmployeeToProjectByName(employeeName, projectName);
             _signalRClientMethodsHelper.RefreshProjectsList();
 
-            return new AlexaResponse(output);
+            return new AlexaResponse(output, false);
         }
 
         private AlexaResponse AddSkillToEmployee(Request request)
@@ -141,7 +141,7 @@ namespace AlexaSkill.Controllers
             var output = _employeeService.AddSkillToEmployeeByName(skillName, employeeName);
             _signalRClientMethodsHelper.RefreshEmployeesList();
 
-            return new AlexaResponse(output);
+            return new AlexaResponse(output, false);
         }
 
         private AlexaResponse SubmitForm(Request request)
@@ -162,9 +162,9 @@ namespace AlexaSkill.Controllers
         }
         private AlexaResponse ShowFormIntentHandler(Request request)
         {
-            var formToLoad = Convert.ToInt32(GetStringSlot(request));
-            var output = "Form Number " + formToLoad + " has been loaded for you, please fill the input fills as corresponding.";
-            if (formToLoad < 1 || formToLoad > 3)
+            var formToLoad = GetStringSlot(request);
+            var output = "Form " + formToLoad + " has been loaded for you, please fill the input fills as corresponding.";
+            if (!formToLoad.ToLower().Equals("projects") && !formToLoad.ToLower().Equals("employees") && !formToLoad.ToLower().Equals("skills"))
             {
                 output = "No Form with that Id is currently available";
             }
@@ -172,7 +172,7 @@ namespace AlexaSkill.Controllers
             {
                 _signalRClientMethodsHelper.ShowForm(formToLoad);
             }
-            return new AlexaResponse(output);
+            return new AlexaResponse(output, false);
         }
         private AlexaResponse FillInputNameHandler(Request request)
         {
@@ -181,7 +181,7 @@ namespace AlexaSkill.Controllers
 
             _signalRClientMethodsHelper.UpdateFormField("firstName", firstName);
             
-            return new AlexaResponse(output);
+            return new AlexaResponse(output, false);
         }
         private AlexaResponse FillInputDateHandler(Request request)
         {
@@ -190,7 +190,7 @@ namespace AlexaSkill.Controllers
 
             _signalRClientMethodsHelper.UpdateFormField("date", date);
             
-            return new AlexaResponse(output);
+            return new AlexaResponse(output, false);
         }
         private AlexaResponse FillInputAgeHandler(Request request)
         {
@@ -199,7 +199,7 @@ namespace AlexaSkill.Controllers
 
             _signalRClientMethodsHelper.UpdateFormField("age", age);
             
-            return new AlexaResponse(output.ToString());
+            return new AlexaResponse(output.ToString(), false);
         }
         private AlexaResponse FillInputCountryHandler(Request request)
         {
@@ -208,7 +208,7 @@ namespace AlexaSkill.Controllers
 
             _signalRClientMethodsHelper.UpdateFormField("country", country);
 
-            return new AlexaResponse(output);
+            return new AlexaResponse(output, false);
         }
         private AlexaResponse FillInputServiceHandler(Request request)
         {
@@ -222,7 +222,7 @@ namespace AlexaSkill.Controllers
             {
                 _signalRClientMethodsHelper.UpdateFormField("service", serviceToChoose.ToString());
             }
-            return new AlexaResponse(output);
+            return new AlexaResponse(output, false);
         }
         private AlexaResponse FillInputBudgetHandler(Request request)
         {
@@ -237,7 +237,7 @@ namespace AlexaSkill.Controllers
             {
                 _signalRClientMethodsHelper.UpdateFormField("budget", budget.ToString());
             }
-            return new AlexaResponse(output);
+            return new AlexaResponse(output, false);
         }
         private AlexaResponse FillTrainingDayHandler(Request request)
         {
@@ -245,7 +245,7 @@ namespace AlexaSkill.Controllers
             var output = "Got you";
 
             _signalRClientMethodsHelper.UpdateFormField("trainingDay", day);
-            return new AlexaResponse(output);
+            return new AlexaResponse(output, false);
         }
         private AlexaResponse FillGenderHandler(Request request)
         {
@@ -253,7 +253,7 @@ namespace AlexaSkill.Controllers
             var output = "Got you";
             
             _signalRClientMethodsHelper.UpdateFormField("gender", gender);
-            return new AlexaResponse(output);
+            return new AlexaResponse(output, false);
         }
         private AlexaResponse SessionEndedRequestHandler(Request request)
         {
