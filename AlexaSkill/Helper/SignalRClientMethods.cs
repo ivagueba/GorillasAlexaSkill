@@ -28,9 +28,9 @@ namespace AlexaSkill.Helper
             _hubContext.Clients.All.GetEmployeesList(projects);
         }
 
-        public void SubmitForm()
+        public void SubmitForm(string form)
         {
-            _hubContext.Clients.All.SubmitForm();
+            _hubContext.Clients.All.SubmitForm(form);
         }
 
         public void ShowForm(string form)

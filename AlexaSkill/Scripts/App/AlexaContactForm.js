@@ -8,13 +8,28 @@ let updateFormsVisibility = (formToDisplay) => {
         console.log('Already in Contact Form Screen');
     }
 }
+let updateProjectNameInput = (newProjectName) => {
+    console.log(newProjectName);
+    $('.projectName').val(newProjectName);
+}
 
 let updateFirstNameInput = (newFirstName) => {
     console.log(newFirstName);
     $('.exampleFirstName').text('');
     $('.firstName').val(newFirstName);
 }
-
+let updateLastNameInput = (newLastName) => {
+    console.log(newLastName);
+    $('.lastName').val(newLastName);
+}
+let updateEmailInput = (newEmail) => {
+    console.log(newEmail);
+    $('.email').val(newEmail);
+}
+let updateSlackIdInput = (newSlackId) => {
+    console.log(newSlackId);
+    $('.slackId').val(newSlackId);
+}
 let updateAgeInputField = (newAge) => {
     $('.exampleInputAge').text('');
     $('#exampleInputAge').val(newAge);
@@ -59,10 +74,53 @@ let validateData = () => {
     return info;
 }
 
-let submitContactForm = (contactFormData) => {
-    console.log(contactFormData);
-    let contactFormEndpoint = 'http://' + window.location.host + '/api/contact/submit';
+let validateDataProject = () => {
+    var info = {};
+    info.Name = $('#Name').val();
+    if (!info.Name) {
+        console.log('NO VALUE HERE BRO');
+        $('#Name').addClass('is-invalid');
+        $('#error-messages-proj').html('All fields are required.');
+    }
 
+    return info;
+}
+
+let validateDataEmployee = () => {
+    var info = {};
+    info.FirstName = $('#FirstName').val();
+    if (!info.FirstName) {
+        console.log('NO VALUE HERE BRO');
+        $('#FirstName').addClass('is-invalid');
+        $('#error-messages-emp').html('All fields are required.');
+    }
+
+    info.LastName = $('#LastName').val();
+    if (!info.LastName) {
+        console.log('NO VALUE HERE BRO');
+        $('#LastName').addClass('is-invalid');
+        $('#error-messages-emp').html('All fields are required.');
+    }
+
+    info.Email = $('#Email').val();
+    if (!info.Email) {
+        console.log('NO VALUE HERE BRO');
+        $('#Email').addClass('is-invalid');
+        $('#error-messages-emp').html('All fields are required.');
+    }
+    info.SlackId = $('#SlackId').val();
+    if (!info.SlackId) {
+        console.log('NO VALUE HERE BRO');
+        $('#SlackId').addClass('is-invalid');
+        $('#error-messages-emp').html('All fields are required.');
+    }
+    return info;
+}
+
+let submitContactForm = (form, contactFormData) => {
+    console.log(contactFormData);
+    let contactFormEndpoint = 'http://' + window.location.host + '/api/contact/submit' + form;
+    console.log(contactFormEndpoint);
     if (!contactFormData) {
         alert('GO AWAY!!')
     } else {
@@ -70,22 +128,42 @@ let submitContactForm = (contactFormData) => {
             type: 'POST',
             url: contactFormEndpoint,
             data: contactFormData,
-            success: function (data, textStatus) { console.log(textStatus); },
-            error: function (xhr, textStatus, errorThrown) { alert('failed'); }
+            success: function (data, textStatus) { console.log(textStatus); location.reload(); },
+            error: function (xhr, textStatus, errorThrown) { console.log('failed: ' + errorThrown); }
         });
     }
 }
 
-$.connection.alexaHub.client.submitForm = () => {
+$.connection.alexaHub.client.submitForm = (form) => {
     console.log('I should submit now!... BUT WAIT I NEED TO VALIDATE STUFF I THINK');
-    let info = validateData();
-    submitContactForm(info);
+    switch (form) {
+        case 'project':
+            let infoProject = validateDataProject();
+            submitContactForm(form, infoProject);
+            break;
+        case 'employee':
+            let infoEmployee = validateDataEmployee();
+            submitContactForm(form, infoEmployee);
+            break;
+    }
 }
 
 $.connection.alexaHub.client.updateFormField = (fieldName, value) => {
     switch (fieldName) {
+        case 'projectName':
+            updateProjectNameInput(value);
+            break;
         case 'firstName': 
             updateFirstNameInput(value);
+            break;
+        case 'lastName':
+            updateLastNameInput(value);
+            break;
+        case 'email':
+            updateEmailInput(value);
+            break;
+        case 'slackId':
+            updateSlackIdInput(value);
             break;
         case 'date':
             updateDateInputField(value);

@@ -1,4 +1,6 @@
 ﻿using AlexaSkill.Models;
+using AlexaSkillGorillas.BL.Models;
+using AlexaSkillGorillas.BL.Services;
 using AlexaSkillGorillas.Data;
 using System;
 using System.Collections.Generic;
@@ -35,6 +37,20 @@ namespace AlexaSkill.Controllers
                 db.SaveChanges();
             }
 
+        }
+
+        [HttpPost, Route("api/contact/submitproject")]
+        public void SubmitProject([FromBody]ProjectModel projectModel)
+        {
+            ProjectService projectService = new ProjectService();
+            projectService.AddProject(projectModel);
+        }
+
+        [HttpPost, Route("api/contact/submitemployee")]
+        public void SubmitEmployee([FromBody]EmployeeModel employeeModel)
+        {
+            EmployeeService employeeService = new EmployeeService();
+            employeeService.AddEmployee(employeeModel);
         }
     }
 }

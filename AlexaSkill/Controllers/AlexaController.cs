@@ -78,8 +78,20 @@ namespace AlexaSkill.Controllers
                 case "ShowFormIntent":
                     response = ShowFormIntentHandler(request);
                     break;
+                case "FillInputProjectName":
+                    response = FillInputProjectNameHandler(request);
+                    break;
                 case "FillInputName":
                     response = FillInputNameHandler(request);
+                    break;
+                case "FillInputLastName":
+                    response = FillInputLastNameHandler(request);
+                    break;
+                case "FillInputEmail":
+                    response = FillInputEmailHandler(request);
+                    break;
+                case "FillInputSlackId":
+                    response = FillInputSlackIdHandler(request);
                     break;
                 case "FillInputDate":
                     response = FillInputDateHandler(request);
@@ -147,7 +159,8 @@ namespace AlexaSkill.Controllers
         private AlexaResponse SubmitForm(Request request)
         {
             var output = "Thanks.";
-            _signalRClientMethodsHelper.SubmitForm();
+            var formToSubmit = GetStringSlot(request);
+            _signalRClientMethodsHelper.SubmitForm(formToSubmit);
             return new AlexaResponse(output);
         }
         private AlexaResponse HelpIntent(Request request)
@@ -174,6 +187,15 @@ namespace AlexaSkill.Controllers
             }
             return new AlexaResponse(output, false);
         }
+        private AlexaResponse FillInputProjectNameHandler(Request request)
+        {
+            var projectName = GetStringSlot(request);
+            var output = "We filled project " + projectName + ", Thanks";
+
+            _signalRClientMethodsHelper.UpdateFormField("projectName", projectName);
+
+            return new AlexaResponse(output, false);
+        }
         private AlexaResponse FillInputNameHandler(Request request)
         {
             var firstName = GetStringSlot(request);
@@ -181,6 +203,33 @@ namespace AlexaSkill.Controllers
 
             _signalRClientMethodsHelper.UpdateFormField("firstName", firstName);
             
+            return new AlexaResponse(output, false);
+        }
+        private AlexaResponse FillInputLastNameHandler(Request request)
+        {
+            var lastName = GetStringSlot(request);
+            var output = "We filled your last name, Thanks";
+
+            _signalRClientMethodsHelper.UpdateFormField("lastName", lastName);
+
+            return new AlexaResponse(output, false);
+        }
+        private AlexaResponse FillInputEmailHandler(Request request)
+        {
+            var email = GetStringSlot(request);
+            var output = "We filled your email, Thanks";
+
+            _signalRClientMethodsHelper.UpdateFormField("email", email);
+
+            return new AlexaResponse(output, false);
+        }
+        private AlexaResponse FillInputSlackIdHandler(Request request)
+        {
+            var slackId = GetStringSlot(request);
+            var output = "We filled your slack id, Thanks";
+
+            _signalRClientMethodsHelper.UpdateFormField("slackId", slackId);
+
             return new AlexaResponse(output, false);
         }
         private AlexaResponse FillInputDateHandler(Request request)
